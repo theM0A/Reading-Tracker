@@ -1,0 +1,316 @@
+# Build Plan — Personal Reading Tracker
+
+Companion to `project.md`. That file says who I am and what I'm building. This file
+says what I chose and in what order I'm building it.
+
+**Primary objective: understanding, not speed.** A section is finished when I can
+explain how it works, not when the code runs. The end goal is being able to explain
+my app end to end — from a click in the browser to a row in the database and back.
+
+---
+
+## Locked Decisions
+
+Each of these was chosen deliberately. If I'm ever tempted to change one, the
+reasoning is here — I should have a better reason than "I saw something cooler."
+
+### Language: Java
+
+The language of my degree, so every hour on this project makes coursework easier
+and vice versa. Nothing else compounds like that. Strict about types, so the
+compiler catches mistakes before the program runs instead of exploding mid-
+execution. 30 years mainstream means every error I hit has a written answer
+somewhere. Strict habits learned here transfer to looser languages later; the
+reverse is much harder.
+
+*Rejected:* Python (friendlier, but loose typing hides a whole class of bugs and it
+isn't my coursework). JavaScript (learning a strange language while learning to
+program means I can't tell which confusions are mine).
+
+### Frontend: plain HTML + CSS, server-rendered with Thymeleaf
+
+Server-rendered means the Java backend builds the complete HTML page and sends it
+fully formed. Click a button, the browser requests a new page, the server sends
+one. No JavaScript needed for anything in my MVP — every feature is a form
+submission or a page view.
+
+Thymeleaf is a template engine: normal HTML with a few extra attributes like
+`th:text="${book.title}"` that get filled in when the page is built. Roughly five
+attributes cover this entire project — print a value, loop a list, conditional
+display, bind a form, build a link. My CSS is 100% plain CSS, untouched by
+Thymeleaf.
+
+I am skipping the *framework*, not the frontend. I write real HTML and real CSS and
+style the whole thing myself.
+
+*Rejected:* React (separate language, build system, mental model, and app — two
+projects instead of one; the most common way beginners stall). Hand-written JS
+(still JavaScript, and manual DOM updates get messy fast).
+
+*Note for later:* Java and JavaScript are unrelated languages despite the names.
+Java runs on the server, JavaScript runs in the browser, they talk over the
+network. Adding JS later is purely additive — a `<script>` tag in a page I already
+have. Nothing built now gets thrown away.
+
+### Backend: Spring Boot
+
+A framework is pre-written code handling common problems. Without one, "receive an
+HTTP request" means network sockets and protocol parsing — weeks of work before the
+app does anything. Spring Boot handles that; I write "when someone visits /books,
+run this," and it manages everything underneath.
+
+Default choice for Java web development by a wide margin. Most Java backend jobs
+list it. Enormous tutorial supply. Works with Thymeleaf out of the box.
+
+*The tension:* the framework that does the most for me teaches me the least about
+what's underneath. Mitigation: I build the console app FIRST. When Spring Boot
+calls my Book logic, I know exactly what that logic does because I wrote it. The
+magic stays confined to the plumbing layer. I don't need to understand all of
+Spring Boot — I need to understand all of *my* code, and to know where the line is.
+
+*Rejected:* Javalin/Spark (less magic, but tiny communities — the 1am answer often
+doesn't exist). Plain servlets (deep understanding, enormous boilerplate, nobody
+has built this way in 15 years).
+
+### Database: SQLite locally, PostgreSQL in production
+
+A database stores structured data on disk and answers questions about it in SQL.
+
+SQLite is a single file on disk. No server, no install, no config — the program
+opens the file and works. Zero setup keeps focus on Java.
+
+Postgres is a separate database server the app connects to over a network.
+
+**Why both:** SQLite lives on the same disk as the app. Hosting platforms replace
+that disk on every deploy, so a SQLite file in production gets wiped on the next
+push — silently, no error, just an empty list. Postgres runs as its own service
+with its own storage and survives independently of the app's lifecycle. The switch
+is small: same SQL, same Java code, a few lines of config.
+
+**This is not optional.** Deploying is in the MVP, and deploying is the moment
+SQLite stops working. It's a scheduled step, not a someday-upgrade.
+
+*Rejected:* H2 in-memory (data vanishes on restart — the exact opposite of the
+lesson). MongoDB (my data is a table of books with identical fields every time,
+which is precisely what SQL is for, and SQL is the more valuable skill).
+
+### Hosting: Render
+
+Managed hosting: rents an always-on internet-connected computer, watches my GitHub
+repo, builds and deploys on push. Free tier for web services. Free apps sleep after
+inactivity, so the first visit after a quiet period takes 30–60 seconds to wake.
+Fine for a personal tracker.
+
+Doing it myself would mean provisioning a machine, installing Java, configuring a
+web server, managing SSL — a separate career, not a prerequisite for mine. I still
+learn the parts that matter: environment variables, why config differs between
+laptop and server, what a build produces, how connection strings work. I skip the
+sysadmin layer.
+
+*Rejected:* Railway (nearly identical, no sleep delay, ~$5/month after trial —
+worth revisiting if the sleep annoys me). Fly.io (more control, more concepts at
+the exact moment I want deployment to be boring).
+
+**Reminder:** this app has exactly one user and it's me. No login system, no
+sharing, no public profiles. If I catch myself designing for an audience, that's
+scope creep.
+
+---
+
+## Build Sections
+
+Nine sections. Each ends in something I can see working. Each builds on the last.
+No section starts until the previous deliverable exists.
+
+Task-level breakdown comes later, one section at a time.
+
+### Section 0 — The paper sketch
+
+Before any code, any install, any account: 20 minutes with paper defining what a
+Book is. What fields does it hold? What are the possible statuses? How does a book
+move between them? What's required vs. optional? What would make a book invalid?
+
+This is the design decision tutorials always hand over pre-made. Making it myself
+is the point.
+
+**Deliverable:** a page of paper describing the Book model in plain language, in my
+handwriting.
+
+**Tasks:**
+
+- [x] 0.1 — Fields: what information does a Book hold? Decide each one, and decide
+      what is stored vs. calculated. ✓ Six stored fields: title, author, total pages,
+      current page, status, date added. Calculated values (progress %) are NOT fields.
+      Defaults: current page starts at 0 (not 1 — keeps 0% math clean for an unopened
+      book), status starts at "Want to Read", date added is an automatic timestamp.
+- [x] 0.2 — Statuses: what states can a book be in? Name the exact, complete set.
+      ✓ Four statuses: Want to Read, Currently Reading, Finished, Dropped. Found the
+      Dropped gap by stress-testing the original three against "quit mid-book."
+      Confirmed multiple books can share "Currently Reading" at once (no new status
+      needed) and that rereading targets Currently Reading, not Want to Read.
+- [x] 0.3 — Transitions: how does a book move between statuses? Which moves are
+      allowed, which are nonsense? ✓ Want to Read → Currently Reading; Currently
+      Reading → Finished or Dropped; Finished → Currently Reading (reread); Dropped
+      → Currently Reading (pick up). Nothing transitions to Want to Read after
+      creation — that status is creation-only. Key distinction found: the *initial*
+      status chosen when a book is added (any of the four, e.g. logging a book
+      already finished) is not a transition — transitions only govern a book already
+      in the system. Kept Want to Read → Finished blocked as a transition
+      deliberately, for accountability, with the option to loosen it later.
+- [x] 0.4 — Validity: what makes a Book invalid? What should the program refuse to
+      accept? ✓ Total pages: must be > 0. Title/author: must not be empty — no
+      character restrictions (rejected a digits/symbols ban after considering real
+      names with apostrophes/hyphens and online aliases). Current page: must be
+      >= 0 (0 is valid — "haven't started," matches the 0.1 default) and <=
+      total pages (no theoretical upper bound beyond that). Status: must be one
+      of the four fixed enum values, nothing else. Date added: not user input —
+      it's the automatic timestamp from 0.1, so format validation doesn't apply;
+      "invalid" here means the program failed to set it, not a malformed value.
+- [x] 0.5 — Check the sketch against the MVP feature list in `project.md`. Can
+      every MVP feature be built from this model? Anything missing, anything unused?
+      ✓ All seven MVP features map to the model. Resolved a real design tension on
+      Edit: since status can't freely be edited without undermining 0.3's
+      accountability rule, Edit is scoped to title/author/total pages only — status
+      changes only through Set Status (transition-gated), current page only through
+      its own feature, wrong status at creation means delete-and-re-add. Caught a
+      real gap: date added was stored but no feature displayed it, contradicting its
+      own stated purpose ("so the user knows when they added the book") — fixed by
+      folding it into the View feature.
+
+### Section 1 — Source control and a running Java project
+
+Install Java and an IDE. Create an empty project. Initialize Git, make a GitHub
+repo, push. Write a program that prints one line. Commit it.
+
+Learn: what a commit is, what a push is, what `.gitignore` does and why compiled
+output never belongs in a repo.
+
+**Deliverable:** a GitHub repo with at least two commits, containing a Java program
+that runs and prints something.
+
+**Tasks:**
+
+- [x] 1.1 — Confirm Java (JDK) and an IDE are installed and working. ✓ Java 26
+      (JDK, confirmed via both `java -version` and `javac -version`), working in
+      IntelliJ IDEA's built-in terminal.
+- [ ] 1.2 — Create the project folder, initialize Git, write `.gitignore` and
+      `README.md`. First commit.
+- [ ] 1.3 — Write a one-line Java program and get it running.
+- [ ] 1.4 — Second commit (the working program).
+- [ ] 1.5 — Create a GitHub repo, connect it as a remote, push. Confirm the commits
+      show up online.
+
+### Section 2 — The Book class and a list in memory
+
+Turn the paper sketch into a Java class. Fields, a constructor, methods. An enum
+for status. Create several books in code, put them in an ArrayList, print them all.
+No input, no menu, no saving.
+
+Learn: classes, objects, fields, constructors, methods, enums, ArrayList,
+`toString()`.
+
+**Deliverable:** running the program prints a list of three hardcoded books with
+their details.
+
+### Section 3 — A working console app
+
+Add a menu loop. Read input from the keyboard. Add books, view books, update a
+current page, change a status, delete a book. Validate input — reject a page number
+above the total, reject empty titles, handle someone typing letters where a number
+belongs without crashing.
+
+Everything still disappears on exit. That's expected and it's the setup for the
+next section.
+
+Learn: Scanner, loops, conditionals, methods that return values, input validation,
+exception handling, separating logic from display.
+
+**Deliverable:** I can run the app in a terminal and manage a list of books
+entirely through the menu, and I can't crash it with bad input.
+
+### Section 4 — Persistence
+
+Make the data survive. Save to a file on exit, load on startup. Once that works,
+replace it with SQLite: create a table, write SQL to insert, select, update, and
+delete, connect from Java through JDBC.
+
+Learn: file I/O, why in-memory data disappears, what a database is, basic SQL,
+JDBC, connections and statements.
+
+**Deliverable:** add books, close the program, reopen it, and the books are still
+there — first from a file, then from a database.
+
+### Section 5 — A page in a browser
+
+First Spring Boot project. A controller method that responds to a URL. A Thymeleaf
+template that renders. Start with static text, then pass real data from Java into
+the page.
+
+This is where the mental model shifts: the browser and the code are now separate
+things talking over a network.
+
+Learn: what a server is, what a request and response are, what a route is, what a
+controller does, how Thymeleaf fills in values.
+
+**Deliverable:** `localhost:8080` in my browser shows a page listing my books,
+pulled from Java.
+
+### Section 6 — Styling and forms
+
+Make it look like something I want to open. Write the CSS myself — layout,
+typography, spacing, a progress indicator. Add HTML forms for adding a book and
+updating progress, wired to POST routes.
+
+Learn: HTML forms, GET vs POST, how form data reaches the server, CSS layout,
+responsive basics so it's usable on my phone.
+
+**Deliverable:** a styled page where I can submit a form and see the new book
+appear in the list.
+
+### Section 7 — Full features on the web
+
+Every MVP feature working through the browser against the real database: add, edit,
+delete, update progress, change status, filter by status, show progress percentage.
+The Book logic from the console app carries over — this section wires it to the web
+layer.
+
+Learn: connecting controller, service, and database layers; handling edits and
+deletes over HTTP; server-side validation; what happens on refresh after a form
+post.
+
+**Deliverable:** the complete MVP feature list works in my browser, backed by the
+database, running locally.
+
+### Section 8 — Tests
+
+Write automated tests for the logic that matters — progress calculation, status
+transitions, validation rules. Run them and watch them pass. Break something on
+purpose and watch them fail.
+
+Learn: what a unit test is, JUnit basics, why tests exist, what's worth testing and
+what isn't.
+
+**Deliverable:** a test suite that runs with one command, and a deliberate bug that
+the tests catch.
+
+### Section 9 — Live on the internet
+
+Switch from SQLite to Postgres. Move config into environment variables. Deploy to
+Render. Fix whatever breaks — something always breaks, and debugging it is the
+lesson.
+
+Learn: dev vs production config, environment variables, why secrets never enter
+Git, connection strings, reading deploy logs.
+
+**Deliverable:** I open a URL on my phone, add the book I'm actually reading, and
+update my page number after tonight's session.
+
+---
+
+## Definition of Done
+
+The MVP is done when Section 9's deliverable is real, and when I can walk someone
+through what happens between typing the URL and seeing my book list — through the
+browser, the network, the controller, the logic, the database, and back.
+
+Only then does the parking lot in `project.md` open.

@@ -1,0 +1,203 @@
+# Knowledge Graph
+
+The map of what I actually know. Updated after every lesson. This file decides what
+I get quizzed on.
+
+**Last updated:** 2026-09-01
+
+---
+
+## How This Works
+
+### Statuses
+
+| Status | Means |
+|---|---|
+| `seed` | Not yet taught. On the map because this project will teach it. |
+| `introduced` | Explained to me once. I have heard it, not used it. |
+| `practicing` | I have used it in real code, with help or reference. |
+| `understood` | I explained it in my own words AND passed a quiz on it. |
+
+### Rules
+
+1. **Statuses only upgrade on evidence.** Something I said or did, recorded in the
+   evidence field. Not "we covered that." Not vibes. If the evidence field is
+   empty, the status is `seed`.
+2. **`introduced` requires an explanation happened.** `practicing` requires code I
+   wrote. `understood` requires both an in-my-own-words explanation and a passed
+   quiz.
+3. **Statuses can downgrade.** If I fail a quiz on something marked `understood`,
+   it drops to `practicing`. Forgetting is normal and the map should be honest.
+4. **No re-quizzing on fresh understood concepts.** If status is `understood` and
+   last-reviewed is under 30 days old, skip it. Quiz time goes to `introduced` and
+   `practicing` entries.
+5. **Stale understood concepts come back.** Over 60 days since last review, it
+   becomes eligible again — one quick check, not a full re-teach.
+6. **Quiz priority order:** `practicing` (closest to locking in) → `introduced`
+   (needs application) → stale `understood` → `seed` is never quizzed, only taught.
+
+---
+
+## 1. Low-Level — Language Fundamentals
+
+The raw material. Variables, control flow, the syntax of thinking in Java.
+
+| Concept | Status | Introduced | Last Reviewed | Evidence |
+|---|---|---|---|---|
+| Variables and assignment | seed | — | — | |
+| Primitive types (int, double, boolean, char) | seed | — | — | |
+| Strings and string methods | seed | — | — | |
+| Operators and expressions | seed | — | — | |
+| Conditionals (if / else if / else) | seed | — | — | |
+| Switch statements | seed | — | — | |
+| Loops (for, while, do-while) | seed | — | — | |
+| Enhanced for loop (for-each) | seed | — | — | |
+| Methods: defining and calling | seed | — | — | |
+| Parameters and arguments | seed | — | — | |
+| Return values and return types | seed | — | — | |
+| void vs returning methods | seed | — | — | |
+| Scope (where a variable is visible) | seed | — | — | |
+| Arrays | seed | — | — | |
+| ArrayList and why it beats an array here | seed | — | — | |
+| Classes as blueprints | understood | 2026-08-31 | 2026-09-01 | Trunk item 2; corrected once in 0.1, then on a second pass explained it unprompted: "the class contains all the fields... no data is within those fields." Correct without help the second time. |
+| Objects as instances | understood | 2026-09-01 | 2026-09-01 | "once an object is called (book) the fields are fully updated and aren't in some pending session" — grasped that an object is born fully filled, no half-built state, after one clarifying exchange. |
+| Fields (instance variables) | introduced | 2026-09-01 | 2026-09-02 | Identified six fields for Book, articulated that all six are stored. Self-corrected: "is it really calculated? you are just replacing the 5 with a 10." Session-opener check 2026-09-02: "a field is an empty data holder within the book class (container)... will hold data values for book objects that'll be created" — clean, unprompted. |
+| Constructors | introduced | 2026-09-01 | 2026-09-01 | Named (not yet used) while explaining objects: "an object only comes into existence the moment you build it with a constructor." First exposure to the term. |
+| Getters and setters | seed | — | — | |
+| Encapsulation (private fields, public methods) | seed | — | — | |
+| toString() and why it exists | seed | — | — | |
+| Enums (fixed set of values, e.g. book status) | introduced | 2026-09-01 | 2026-09-02 | Task 0.2: derived the exact fixed set for status by testing edge cases. Session-opener quiz 2026-09-02 was shaky (missed "why enum vs. string"); after a refresher, correctly applied it unprompted in 0.4: "status field would be invalid if a choice isnt selected from the fixed enum set... user shouldnt be allowed to create another choice of their own." Still `introduced`, not `practicing` — no code written yet. |
+| null and NullPointerException | seed | — | — | |
+| Exceptions and try/catch | seed | — | — | |
+| Reading a stack trace | seed | — | — | |
+| Scanner and reading keyboard input | seed | — | — | |
+| Type casting and conversion | seed | — | — | |
+| static vs instance | seed | — | — | |
+| Dates and LocalDate | seed | — | — | |
+| Integer/double division and percentage math | introduced | 2026-09-01 | 2026-09-02 | Reasoned through current-page default using the progress formula: correctly rejected starting at 1 because "1/412" would show false progress on an unopened book. Reinforced in 0.4 resolving a self-contradiction: reconnected 0/203 pages to "0% which is what we want" and derived the upper bound (current page <= total pages) unprompted. |
+| Interfaces (basic idea) | seed | — | — | |
+| Inheritance (basic idea) | seed | — | — | |
+
+## 2. Structural — How Code Is Organized
+
+How files find each other, how a project is shaped, how other people's code gets in.
+
+| Concept | Status | Introduced | Last Reviewed | Evidence |
+|---|---|---|---|---|
+| Multiple files in one program | seed | — | — | |
+| Packages and imports | seed | — | — | |
+| One class per file convention | seed | — | — | |
+| Project directory structure (src/main/java) | seed | — | — | |
+| What a dependency is | introduced | 2026-08-31 | 2026-08-31 | Trunk item 7: "someone else's code that my project relies on" |
+| Build tool (Maven/Gradle) role | introduced | 2026-08-31 | 2026-08-31 | Trunk item 7, plan.md locked decision |
+| pom.xml — Java's package manifest | seed | — | — | |
+| Compiling: source code → bytecode | seed | — | — | |
+| Classpath and build output (target/) | seed | — | — | |
+| Packaging into a runnable JAR | seed | — | — | |
+| Separation of concerns | introduced | 2026-08-31 | 2026-08-31 | Explained frontend/logic split: "frontend only cares about taking input and displaying output, it doesn't perform the logic" |
+| Layered architecture (controller / service / repository) | seed | — | — | |
+| Data model as the foundation layer | practicing | 2026-08-31 | 2026-09-02 | Trunk item 2; task 0.1: designed the Book model on paper, chose six fields, cut parking-lot fields (genre, rating, notes), distinguished stored from calculated. Task 0.3: defined the full transition rules governing how status can legally change. Task 0.4: derived validity rules per field, catching and resolving a self-contradiction on current page's lower bound against the locked 0.1 default. Task 0.5: audited all seven MVP features against the model — kept Edit consistent with 0.3's accountability rule by scoping it to title/author/total pages only (rejected editing status directly once the tradeoff was framed), and caught a real gap where date added was stored but never displayed by any feature. Section 0 complete. |
+| Application logic layer | introduced | 2026-08-31 | 2026-08-31 | "The engine of the app that makes the car run — the knife that cuts the ingredients" |
+| Frontend / UI layer | introduced | 2026-08-31 | 2026-08-31 | "The cover of the car, the buttons, steering wheel, gas pedal — allows the user to communicate with the engine" |
+| Backend / server layer | introduced | 2026-08-31 | 2026-08-31 | Trunk item 6; corrected the "frontend talks directly to logic" gap |
+| Configuration files | seed | — | — | |
+| Framework vs library | seed | — | — | |
+
+## 3. Engineering Practice — How Professionals Work
+
+The habits that separate someone who codes from someone who ships.
+
+| Concept | Status | Introduced | Last Reviewed | Evidence |
+|---|---|---|---|---|
+| Source control: what and why | introduced | 2026-08-31 | 2026-08-31 | "Allows you to save code that works, undo code if you break something, and see the progression of your app over time" |
+| Git repository (init, local repo) | seed | — | — | |
+| Commits as snapshots | introduced | 2026-08-31 | 2026-09-02 | Explained saving working versions; corrected that Git tracks files, not app behavior. Session-opener 2026-09-02: "a commit saves your code progress on a project" — clean, unprompted. |
+| Writing good commit messages | seed | — | — | |
+| .gitignore and what never belongs in a repo | seed | — | — | |
+| GitHub, remotes, push/pull | introduced | 2026-08-31 | 2026-09-02 | Trunk item 1; offsite-backup benefit noted as the piece I missed. Session-opener 2026-09-02: "the data will be saved and available on the web... while you might lose ur laptop resulting in loss of code" — landed the offsite-backup point this time, unprompted. |
+| Branches | seed | — | — | |
+| Reading a diff | seed | — | — | |
+| Persistence: why data must outlive the process | introduced | 2026-08-31 | 2026-08-31 | "If you can't save that data you are just working with an empty system"; corrected to "app works fine, it just forgets between runs" |
+| What a database is | introduced | 2026-08-31 | 2026-08-31 | Trunk item 5 |
+| SQL basics (SELECT, INSERT, UPDATE, DELETE) | seed | — | — | |
+| Tables, rows, columns, schema | seed | — | — | |
+| Primary keys and IDs | seed | — | — | |
+| JDBC — Java talking to a database | seed | — | — | |
+| SQLite vs Postgres and when each fits | introduced | 2026-08-31 | 2026-08-31 | plan.md decision; pushed back on my "switch if my situation calls for it" — it's a scheduled MVP step |
+| CRUD as a concept | seed | — | — | |
+| File I/O (reading/writing files) | seed | — | — | |
+| HTTP request and response | seed | — | — | |
+| Routes and URL paths | seed | — | — | |
+| GET vs POST | seed | — | — | |
+| HTTP status codes | seed | — | — | |
+| Client vs server | introduced | 2026-08-31 | 2026-08-31 | Corrected during frontend explanation: browser on my phone, logic on a server, network in between |
+| HTML structure and semantic tags | seed | — | — | |
+| HTML forms and form submission | seed | — | — | |
+| CSS layout and styling | seed | — | — | |
+| Responsive/mobile-friendly basics | seed | — | — | |
+| Template engines (Thymeleaf) | introduced | 2026-08-31 | 2026-08-31 | Asked whether it would hold back plain HTML learning; answered — it's HTML plus ~5 attributes |
+| Java vs JavaScript are unrelated | introduced | 2026-08-31 | 2026-08-31 | Asked "this language can be combined with java right?" — corrected; they run in different places and talk over the network |
+| Input validation | seed | — | — | |
+| Server-side vs client-side validation | seed | — | — | |
+| Debugging: forming and testing a hypothesis | seed | — | — | |
+| Print debugging vs a real debugger | seed | — | — | |
+| Unit tests and JUnit | seed | — | — | |
+| What is worth testing and what isn't | seed | — | — | |
+| Watching a test fail on purpose | seed | — | — | |
+| Environment variables | seed | — | — | |
+| Secrets never enter source control | seed | — | — | |
+| Dev vs production configuration | seed | — | — | |
+| Deployment: local → live | introduced | 2026-08-31 | 2026-08-31 | "You don't have to configure everything yourself, you get a computer that's always on... vs learning more concepts and doing more tasks yourself" |
+| Managed hosting vs self-managed servers | introduced | 2026-08-31 | 2026-08-31 | Same answer; corrected that I still learn env vars/config/builds, just not sysadmin work |
+| Reading deploy logs | seed | — | — | |
+| Writing a README | seed | — | — | |
+| Refactoring without changing behavior | seed | — | — | |
+
+## 4. AI-Era Practice — Working Well With Tools Like This
+
+Not optional extras. These are the difference between using AI to learn and using
+it to avoid learning.
+
+| Concept | Status | Introduced | Last Reviewed | Evidence |
+|---|---|---|---|---|
+| Writing a project spec before coding | introduced | 2026-08-31 | 2026-08-31 | Directed the creation of project.md; set the teacher-not-coder rule myself |
+| Defining an MVP | introduced | 2026-08-31 | 2026-09-02 | Asked for the MVP split and accepted streaks/stats being cut to v2. Session-opener 2026-09-02: "a prototype that gets the foundational idea out of your head and into reality so you can improve on it after you get real world feedback" — clean, unprompted. |
+| Scope discipline / resisting feature creep | practicing | 2026-08-31 | 2026-09-02 | Requested pushback; flagged twice for imagining users; task 0.1: included social features, reminders, notes, streaks, genre, rating on paper — accepted all cuts when challenged against MVP feature list. Task 0.2: self-caught a redundant "Want to Reread" status before I flagged it. Task 0.4: mid-discussion, surfaced a possible fifth "On Hold" status and immediately parked it unprompted ("That's an idea for later though"); also caught that a "book read in the past" idea was really the separate reading-sessions feature, not a date-added validity rule. Asked for a standing rule: auto-park any new idea without being reminded (see [[feedback-auto-park-ideas]]). |
+| Parking lot for deferred ideas | introduced | 2026-08-31 | 2026-08-31 | project.md parking lot written so ideas stop nagging |
+| Sequencing work so each layer builds on the last | introduced | 2026-08-31 | 2026-08-31 | Accepted console-before-web ordering in plan.md |
+| Agent memory files (project.md, plan.md, this file) | introduced | 2026-08-31 | 2026-08-31 | Instructed that every future session starts by reading project.md |
+| Explaining a concept back in my own words | practicing | 2026-08-31 | 2026-08-31 | Did it four times — source control, persistence, application logic, frontend — and absorbed corrections on two |
+| Making technical decisions with stated reasoning | practicing | 2026-08-31 | 2026-09-01 | Locked 5 decisions, each with a why in my own words; chose Render over Railway on cost. Task 0.3: chose to block Want to Read → Finished for accountability, explicitly naming the tradeoff and reserving the right to revisit. |
+| Evaluating alternatives and tradeoffs | practicing | 2026-08-31 | 2026-09-02 | Weighed alternatives on all 5 decisions. Task 0.3: weighed strict-accountability vs. user-flexibility on the Want to Read → Finished transition and picked a side with reasoning, not just listed options. Task 0.5: chose delete-and-re-add over a status "redo" feature after seeing that editable status would quietly undo 0.3's accountability rule — picked the option consistent with an earlier decision over the more convenient-seeming one. |
+| Asking AI to teach rather than solve | introduced | 2026-08-31 | 2026-08-31 | Set the rule in project.md before any code existed |
+| Verifying AI claims instead of accepting them | seed | — | — | |
+| Reviewing AI-generated code before using it | seed | — | — | |
+| Reading a diff critically | seed | — | — | |
+| Knowing when to ask vs when to struggle first | seed | — | — | |
+| Rubber-duck debugging | seed | — | — | |
+| Keeping the knowledge graph honest | seed | — | — | |
+
+---
+
+## Current State
+
+| Status | Count |
+|---|---|
+| understood | 2 |
+| practicing | 5 |
+| introduced | 24 |
+| seed | 63 |
+
+**First two `understood` concepts:** Classes as blueprints and Objects as instances
+— both landed while working out the class/object distinction during task 0.1's
+default-value discussion. Neither is eligible for re-quiz for 30 days.
+
+**Next quiz eligibility:** the four `practicing` entries (explaining concepts back,
+making technical decisions, scope discipline, data model design), plus newly
+`introduced` items — Constructors and Integer/double division — once there's code
+to apply them to.
+
+**First thing that will move:** low-level Java. Sections 1–3 will push a large
+block of section 1 from `seed` to `practicing` quickly, because writing the Book
+class means using classes, fields, constructors, enums, and ArrayList in the same
+sitting.

@@ -1,0 +1,8 @@
+#ignore file
+files.zip
+#ignore folder contents
+.idea/
+#match anything. * is a placeholder - any char can go here. ex: Book.class, Main.class. anything as long as it ends in .class
+#we want to track our (.java files) source code not the .class  files that javac generates every time i compile .java files
+#tracking what i wrote by hand (.java files) not what a tool generates
+*.class

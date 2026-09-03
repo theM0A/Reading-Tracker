@@ -39,6 +39,17 @@ so it's versioned alongside the code and survives across sessions.
 | `learning/knowledge-graph.md` | known | Status of every concept this project teaches, from `seed` to `understood`. Decides what I get quizzed on. Updated after every lesson. |
 | `learning/file-map.md` | known | This file. Keeps every other file explainable. |
 
+### Project root (Section 1)
+
+| Path | Marker | What it is and why it exists |
+|---|---|---|
+| `.gitignore` | known | Tells Git which files to never track. Written line by line in task 1.2: `files.zip` (a redundant leftover, kept but excluded), `.idea/` (personal IDE workspace state, not shared history), `*.class` (compiled bytecode — a regeneratable byproduct of `.java` source, not the source itself). |
+| `README.md` | known | Plain-language intro to the project, written by hand in task 1.2. |
+| `.idea/` | generated | IntelliJ's own project metadata (window layout, module config) — created automatically the moment the folder was opened as an IntelliJ project. Machine/personal state, not shared — hence it's in `.gitignore`. |
+| `.git/` | generated | Git's internal database — every commit, the staging area, branch info. Created empty by `git init` in task 1.2; nothing was tracked automatically, tracking required a separate `git add` step. Never touched by hand. |
+| `src/main/java/` | known | Where Java source lives — Maven convention, adopted early even before Maven's installed, so the structure doesn't need to change later. |
+| `src/main/java/Main.java` | known | Entry point. Task 1.3: written by hand, printing "Hello Reader" — proof a Java program can run before any real app logic exists. |
+
 ---
 
 ## Files Not Yet Created
@@ -50,12 +61,9 @@ real entries — with real markers — when they actually exist.
 
 | Path | Expected marker | What it will be |
 |---|---|---|
-| `.gitignore` | known | Tells Git which files to never track — compiled output, IDE settings, secrets. Must be `known`; a `.gitignore` I don't understand is how credentials leak. |
-| `README.md` | known | What this project is, for anyone who finds the repo. Including future me. |
 | `pom.xml` | parked → known | Maven's manifest: project identity, Java version, dependency list. Starts parked ("declares what my project needs"), resolved in Section 5 when Spring Boot dependencies make it concrete. |
 | `src/main/java/` | known | Where my Java source lives. Maven convention, not arbitrary — the build tool looks here by default. |
 | `target/` | generated | Compiled bytecode and packaged builds. Maven creates it. Never edited, never committed. |
-| `.git/` | generated | Git's internal storage — every commit, branch, and object. Never touched by hand. |
 
 ### Sections 2–3 will create
 
@@ -63,7 +71,6 @@ real entries — with real markers — when they actually exist.
 |---|---|---|
 | `Book.java` | known | The Book class from my paper sketch. The core data model — must be `known` on day one. |
 | `BookStatus.java` | known | Enum of the fixed statuses a book can have. |
-| `Main.java` | known | Entry point. Where the program starts running. |
 | `BookService.java` (or similar) | known | The application logic — add, update, filter, calculate progress. The engine. Name and shape are my design decision. |
 
 ### Section 4 will create

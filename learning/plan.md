@@ -193,9 +193,22 @@ that runs and prints something.
 - [x] 1.1 — Confirm Java (JDK) and an IDE are installed and working. ✓ Java 26
       (JDK, confirmed via both `java -version` and `javac -version`), working in
       IntelliJ IDEA's built-in terminal.
-- [ ] 1.2 — Create the project folder, initialize Git, write `.gitignore` and
-      `README.md`. First commit.
-- [ ] 1.3 — Write a one-line Java program and get it running.
+- [x] 1.2 — Create the project folder, initialize Git, write `.gitignore` and
+      `README.md`. First commit. ✓ Project folder already existed. Caught and
+      resolved a mix-up (moved a stray file into `.idea/`'s own auto-generated
+      gitignore instead of the project's real one). `.gitignore` covers
+      `files.zip`, `.idea/`, `*.class` — reasoned through source-vs-compiled-output
+      and IDE-metadata-vs-shared-history distinctions to get there. First commit
+      `25f7908`: "initial project setup: paper sketch design docs, gitignore,
+      readme, no code (java) yet."
+- [x] 1.3 — Write a one-line Java program and get it running. ✓ `src/main/java/Main.java`,
+      printing "Hello Reader". Hit and fixed real mistakes along the way: a
+      module created then deleted (module vs. plain directory distinction),
+      a wrong nested path (`src/main/src/`), and a rename that swept the
+      required-lowercase `main` method into capitalized `Main` along with the
+      class. Ran it via the single-file source-launch shortcut (`java
+      Main.java` directly, Java 11+) — confirmed by checking the folder that
+      no `.class` file was produced, since that mode compiles in memory only.
 - [ ] 1.4 — Second commit (the working program).
 - [ ] 1.5 — Create a GitHub repo, connect it as a remote, push. Confirm the commits
       show up online.

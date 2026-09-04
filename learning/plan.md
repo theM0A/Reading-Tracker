@@ -209,9 +209,24 @@ that runs and prints something.
       class. Ran it via the single-file source-launch shortcut (`java
       Main.java` directly, Java 11+) — confirmed by checking the folder that
       no `.class` file was produced, since that mode compiles in memory only.
-- [ ] 1.4 — Second commit (the working program).
-- [ ] 1.5 — Create a GitHub repo, connect it as a remote, push. Confirm the commits
-      show up online.
+- [x] 1.4 — Second commit (the working program). ✓ Commit `9a20895`: "First java
+      program, helping me understand how code runs in terminal. Updating my
+      learning progression as I create Reading-tracker app." Bundled
+      `src/main/java/Main.java` with the three `learning/*.md` updates from this
+      session. First draft of the message covered only the code half; revised
+      after a prompt to name the why and cover both halves of the diff.
+- [x] 1.5 — Create a GitHub repo, connect it as a remote, push. Confirm the commits
+      show up online. ✓ Repo `theM0A/Reading-Tracker`, created empty (no
+      README/.gitignore/license, to avoid a conflicting initial history).
+      Renamed local branch `master` → `main` unprompted to match GitHub's
+      default before pushing. `git remote add origin`, then
+      `git push -u origin main` — both commits confirmed live on GitHub.
+      Quiz on the `-u` flag needed one correction: attributed the
+      no-more-`-u`-needed behavior to the branch rename rather than to the
+      upstream tracking link `-u` itself creates.
+
+**Section 1 complete** — all five tasks done. Deliverable met: a GitHub repo with
+two commits, containing a Java program that runs and prints something.
 
 ### Section 2 — The Book class and a list in memory
 
@@ -224,6 +239,27 @@ Learn: classes, objects, fields, constructors, methods, enums, ArrayList,
 
 **Deliverable:** running the program prints a list of three hardcoded books with
 their details.
+
+**Tasks:**
+
+- [x] 2.1 — Create `BookStatus.java`: an enum with the four fixed statuses from
+      task 0.2. ✓ `WANT_TO_READ`, `CURRENTLY_READING`, `FINISHED`, `DROPPED`.
+      First real enum ever written — worked through unfamiliar syntax from a
+      generic example (not the answer), then two corrections on naming: hyphens
+      aren't legal Java identifiers (parsed as subtraction), and enum constants
+      follow an ALL_CAPS convention. Landed both on the second attempt.
+- [x] 2.2 — Create `Book.java`: the six fields from task 0.1, matching their
+      types to what each one actually holds. ✓ `title`/`author` as `String`,
+      `totalPages`/`currentPage` as `int`, `status` as `BookStatus`,
+      `dateAdded` as `LocalDate` (needing an `import`). First attempt nested
+      all six fields inside a stray `main` method, copying `Main.java`'s shape
+      — corrected: fields sit directly in the class body, `Book` needs no
+      `main` at all. User asked to adopt the Feynman method going forward
+      (see [[feedback-feynman-pause]] in memory) mid-task.
+- [ ] 2.3 — Write `Book`'s constructor.
+- [ ] 2.4 — Write `Book`'s `toString()` method so a Book prints its own details.
+- [ ] 2.5 — In `Main.java`, create three hardcoded `Book` objects, put them in an
+      ArrayList, and print the whole list.
 
 ### Section 3 — A working console app
 

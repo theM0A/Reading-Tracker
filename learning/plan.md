@@ -321,6 +321,34 @@ exception handling, separating logic from display.
 **Deliverable:** I can run the app in a terminal and manage a list of books
 entirely through the menu, and I can't crash it with bad input.
 
+**Tasks:**
+
+- [x] 3.1 — Build the menu skeleton: a loop that prints the action list (View,
+      Add, Update Page, Change Status, Delete, Exit) and reads my choice with
+      `Scanner`. No real actions wired yet — just prove the loop runs,
+      redisplays the menu, and exits cleanly on Exit. ✓ `while (number != 6)`
+      loop in `Main.java`, printing the menu and reading a choice via
+      `input.nextInt()` each pass, `"Goodbye!"` printed after the loop ends.
+      Predicted "works once" for a broken-read scenario, corrected to the real
+      answer (infinite loop, no pause for input) after a walkthrough; then
+      correctly predicted and confirmed by running that typing 3 loops back
+      and typing 6 exits cleanly.
+- [ ] 3.2 — Wire "View all books" to the real `ArrayList` from Section 2,
+      numbered, with a message if the list is empty.
+- [ ] 3.3 — Wire "Add a book": prompt for title, author, total pages via
+      `Scanner`. Validate against 0.4's rules (non-empty title/author,
+      totalPages > 0) and re-prompt instead of crashing on bad input.
+- [ ] 3.4 — Wire "Update current page": pick a book from the list, read a new
+      page number, validate it's >= 0 and <= that book's totalPages.
+- [ ] 3.5 — Wire "Change status": pick a book, choose a target status, and
+      enforce the transition rules from 0.3 (reject illegal moves with a
+      message, don't silently apply anything).
+- [ ] 3.6 — Wire "Delete a book": pick a book, remove it from the ArrayList,
+      confirm removal.
+- [ ] 3.7 — Handle bad non-numeric input everywhere `Scanner` reads a number
+      (e.g., typing "abc" for total pages) without crashing — catch the
+      exception, show a message, re-prompt.
+
 ### Section 4 — Persistence
 
 Make the data survive. Save to a file on exit, load on startup. Once that works,

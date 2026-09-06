@@ -333,8 +333,13 @@ entirely through the menu, and I can't crash it with bad input.
       answer (infinite loop, no pause for input) after a walkthrough; then
       correctly predicted and confirmed by running that typing 3 loops back
       and typing 6 exits cleanly.
-- [ ] 3.2 — Wire "View all books" to the real `ArrayList` from Section 2,
-      numbered, with a message if the list is empty.
+- [x] 3.2 — Wire "View all books" to the real `ArrayList` from Section 2,
+      numbered, with a message if the list is empty. ✓ Nested `if
+      (book.isEmpty())` / `else` inside the `number == 1` branch, indexed
+      `for` loop printing `(i + 1) + ". " + book.get(i)`. Hit and fixed a real
+      compile error (`book.isEmpty` missing `()`) by reading the actual
+      compiler message rather than being told the answer. Ran it, confirmed
+      all three books print numbered 1–3 with full details.
 - [ ] 3.3 — Wire "Add a book": prompt for title, author, total pages via
       `Scanner`. Validate against 0.4's rules (non-empty title/author,
       totalPages > 0) and re-prompt instead of crashing on bad input.

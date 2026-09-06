@@ -20,6 +20,17 @@ public class Main {
             System.out.println("Menu:\n 1.View \n 2.Add \n 3.Update Page \n 4.Change Status \n 5.Delete \n 6.Exit");
             System.out.print("Enter a number to choose an option: ");
             number = input.nextInt();
+
+            if (number == 1){
+                //call the .isEmpty() method
+                if (book.isEmpty()) {
+                    System.out.println("No books in library yet.");
+                } else {
+                    for (int i = 0; i < book.size(); i++) {
+                        System.out.println((i + 1) + ". " + book.get(i));
+                    }
+                }
+            }
         }
         System.out.println("Goodbye!");
     }

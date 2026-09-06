@@ -3,7 +3,7 @@
 The map of what I actually know. Updated after every lesson. This file decides what
 I get quizzed on.
 
-**Last updated:** 2026-09-01
+**Last updated:** 2026-09-06
 
 ---
 
@@ -44,37 +44,37 @@ The raw material. Variables, control flow, the syntax of thinking in Java.
 
 | Concept | Status | Introduced | Last Reviewed | Evidence |
 |---|---|---|---|---|
-| Variables and assignment | seed | — | — | |
+| Variables and assignment | introduced | 2026-09-05 | 2026-09-05 | Task 2.3: asked directly "what does assignment mean" mid-task; taught `=` as "store this value into that variable/field," not mathematical equality. Had already correctly used the concept in practice one exchange earlier (explaining why `this.title = title` works), just hadn't named it. |
 | Primitive types (int, double, boolean, char) | introduced | 2026-09-03 | 2026-09-03 | Task 2.2: taught primitive (`int`) vs. object type (`String`) while assigning types to Book's fields. Applied correctly — `totalPages`/`currentPage` as `int`, no explanation-back yet on the primitive/object distinction itself. |
-| Strings and string methods | introduced | 2026-09-03 | 2026-09-03 | Task 2.2: `title`/`author` typed as `String`, introduced as a capitalized object type unlike primitives. Applied correctly in real code; no string *methods* used yet. |
+| Strings and string methods | practicing | 2026-09-03 | 2026-09-05 | Task 2.2: `title`/`author` typed as `String`. Session-opener 2026-09-05 was shaky (described String vs. int as "characters vs. numbers," missing the primitive/object distinction) — refreshed. Task 2.4: used `+` concatenation to join six fields and text labels into one `String`, plus `\n` escape sequences for line breaks (self-corrected from `/n` after looking it up). First real string-building code — upgraded to practicing. |
 | Operators and expressions | seed | — | — | |
 | Conditionals (if / else if / else) | seed | — | — | |
 | Switch statements | seed | — | — | |
 | Loops (for, while, do-while) | seed | — | — | |
 | Enhanced for loop (for-each) | seed | — | — | |
-| Methods: defining and calling | seed | — | — | |
+| Methods: defining and calling | practicing | 2026-09-05 | 2026-09-05 | Task 2.4: wrote `toString()` — first real method (not a constructor) with an explicit return type, no parameters, `@Override`. |
 | Parameters and arguments | seed | — | — | |
-| Return values and return types | seed | — | — | |
+| Return values and return types | practicing | 2026-09-05 | 2026-09-05 | Task 2.4: wrote a real single `return` statement after first writing six in a row (one per field) — corrected via a question about what `return` does; first explanation said it "goes back to the class" (corrected: it exits immediately and hands the value to the *caller*), re-explained correctly afterward. |
 | void vs returning methods | seed | — | — | |
 | Scope (where a variable is visible) | seed | — | — | |
 | Arrays | seed | — | — | |
-| ArrayList and why it beats an array here | seed | — | — | |
+| ArrayList and why it beats an array here | practicing | 2026-09-06 | 2026-09-06 | Task 2.5: taught arrays' fixed size vs. `ArrayList`'s auto-resizing, and the `ArrayList<Book>` generic-type syntax. Wrote real code: declared the list, built three `Book` objects with `new Book(...)` nested directly inside `.add(...)`. First attempt (`new ArrayList<>;` with no parentheses) got fully stuck — needed a direct explanation rather than a guided question; applied the fix and the object-building pattern correctly and unprompted afterward. |
 | Classes as blueprints | understood | 2026-08-31 | 2026-09-01 | Trunk item 2; corrected once in 0.1, then on a second pass explained it unprompted: "the class contains all the fields... no data is within those fields." Correct without help the second time. |
 | Objects as instances | understood | 2026-09-01 | 2026-09-01 | "once an object is called (book) the fields are fully updated and aren't in some pending session" — grasped that an object is born fully filled, no half-built state, after one clarifying exchange. |
 | Fields (instance variables) | practicing | 2026-09-01 | 2026-09-03 | Identified six fields for Book, articulated that all six are stored. Self-corrected: "is it really calculated? you are just replacing the 5 with a 10." Session-opener check 2026-09-02: "a field is an empty data holder within the book class (container)... will hold data values for book objects that'll be created" — clean, unprompted. Task 2.2: wrote all six real fields in `Book.java`; first attempt nested them inside a stray `main` method (corrected — fields live directly in the class body). Re-explained cleanly after the fix: "fields can only be stored in a class... never in methods." Real code written — upgraded to practicing. |
-| Constructors | introduced | 2026-09-01 | 2026-09-01 | Named (not yet used) while explaining objects: "an object only comes into existence the moment you build it with a constructor." First exposure to the term. |
+| Constructors | practicing | 2026-09-01 | 2026-09-05 | Named (not yet used) 2026-09-01 while explaining objects. Task 2.3: wrote a real one — `public Book(String title, String author, int totalPages)` — with correct required-vs-default parameter split, self-caught after initially including `currentPage` as a parameter. First attempt placed it outside the class braces entirely; corrected after a prediction question, explained the access-control-vs-syntactic-placement distinction back correctly unprompted. First real code written — upgraded to practicing. |
 | Getters and setters | seed | — | — | |
 | Encapsulation (private fields, public methods) | introduced | 2026-09-03 | 2026-09-03 | Task 2.2: taught the `private` convention before writing fields. Feynman-style check afterward: "the fields are marked as private to prevent code outside the class to access the fields and change it directly" — clean, unprompted. |
-| toString() and why it exists | seed | — | — | |
-| Enums (fixed set of values, e.g. book status) | practicing | 2026-09-01 | 2026-09-03 | Task 0.2: derived the exact fixed set for status by testing edge cases. Session-opener quiz 2026-09-02 was shaky (missed "why enum vs. string"); after a refresher, correctly applied it unprompted in 0.4: "status field would be invalid if a choice isnt selected from the fixed enum set... user shouldnt be allowed to create another choice of their own." Task 2.1: admitted honestly to never having used enums; warm-up conflated the enum's job (restricting to a valid set) with transition-rule enforcement (needed a correction — enum doesn't know the rules, that's separate logic). Wrote `BookStatus.java` from a generic pattern, self-corrected identifier naming (hyphens → underscores) after a nudge, applied ALL_CAPS convention after being told once. Post-task quiz clean: correctly named the compiler as catching an invalid value, at compile time before running. First real code written — upgraded to practicing. |
+| toString() and why it exists | understood | 2026-09-05 | 2026-09-06 | Task 2.4: wrote a real `@Override public String toString()`; corrected an initial "handing values back to Java's default toString()" framing to the override *replacing* the default. Task 2.5: closing check — explained cleanly and unprompted why `System.out.println(book)` printed real field values instead of `Book@1a2b3c`, connecting the override and the return mechanism correctly with no correction needed. Upgraded to understood. |
+| Enums (fixed set of values, e.g. book status) | practicing | 2026-09-01 | 2026-09-05 | Task 0.2: derived the exact fixed set for status by testing edge cases. Session-opener quiz 2026-09-02 was shaky (missed "why enum vs. string"); after a refresher, correctly applied it unprompted in 0.4. Task 2.1: wrote `BookStatus.java` from a generic pattern, self-corrected naming after nudges. First real code written — upgraded to practicing. Task 2.3: wrong first attempt at reaching a constant (`BookStatus(WANT_TO_READ)`, called like a function); corrected via dot notation (`BookStatus.WANT_TO_READ`), explained back unprompted why a constant needs no parentheses while a method does. |
 | null and NullPointerException | seed | — | — | |
 | Compiling: source code → bytecode (JVM) | introduced | 2026-09-03 | 2026-09-03 | Task 1.3 quiz: "compiling turns source code into bytecode... .java is turned into a .class file" — right on the transformation, needed two corrections: the JVM (not the terminal) executes bytecode, and the single-file launch shortcut (`java Main.java`) compiles in memory with no `.class` file written, which contradicted their own earlier confirmed observation of the empty folder. |
 | Exceptions and try/catch | seed | — | — | |
 | Reading a stack trace | seed | — | — | |
 | Scanner and reading keyboard input | seed | — | — | |
 | Type casting and conversion | seed | — | — | |
-| static vs instance | seed | — | — | |
-| Dates and LocalDate | introduced | 2026-09-03 | 2026-09-03 | Task 2.2: `dateAdded` typed as `LocalDate`, introduced alongside the need for an `import`. Applied correctly in real code; no date methods used yet. |
+| static vs instance | introduced | 2026-09-05 | 2026-09-05 | Task 2.3: taught `LocalDate.now()` as a static method — called on the type itself, no object needed — while debugging a wrong attempt (`LocalDate(LocalDate)`, calling the type name like a function). Explained the constant-vs-computed-value distinction back correctly unprompted afterward. |
+| Dates and LocalDate | practicing | 2026-09-03 | 2026-09-05 | Task 2.2: `dateAdded` typed as `LocalDate`. Task 2.3: used the static method `LocalDate.now()` in the constructor body to set the default, after a wrong first attempt (`LocalDate(LocalDate)`) was corrected. Real code, method now used — upgraded to practicing. |
 | Integer/double division and percentage math | introduced | 2026-09-01 | 2026-09-02 | Reasoned through current-page default using the progress formula: correctly rejected starting at 1 because "1/412" would show false progress on an unopened book. Reinforced in 0.4 resolving a self-contradiction: reconnected 0/203 pages to "0% which is what we want" and derived the upper bound (current page <= total pages) unprompted. |
 | Interfaces (basic idea) | seed | — | — | |
 | Inheritance (basic idea) | seed | — | — | |
@@ -184,10 +184,10 @@ it to avoid learning.
 
 | Status | Count |
 |---|---|
-| understood | 2 |
-| practicing | 5 |
-| introduced | 24 |
-| seed | 63 |
+| understood | 3 |
+| practicing | 11 |
+| introduced | 23 |
+| seed | 57 |
 
 **First two `understood` concepts:** Classes as blueprints and Objects as instances
 — both landed while working out the class/object distinction during task 0.1's

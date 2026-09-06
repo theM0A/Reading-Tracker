@@ -256,10 +256,54 @@ their details.
       — corrected: fields sit directly in the class body, `Book` needs no
       `main` at all. User asked to adopt the Feynman method going forward
       (see [[feedback-feynman-pause]] in memory) mid-task.
-- [ ] 2.3 — Write `Book`'s constructor.
-- [ ] 2.4 — Write `Book`'s `toString()` method so a Book prints its own details.
-- [ ] 2.5 — In `Main.java`, create three hardcoded `Book` objects, put them in an
-      ArrayList, and print the whole list.
+- [x] 2.3 — Write `Book`'s constructor. ✓ `public Book(String title, String author,
+      int totalPages)` — three required parameters matching what varies book to
+      book, with `currentPage`/`status`/`dateAdded` set to their 0.1 defaults
+      directly in the body. First attempt placed the constructor outside the
+      class body entirely (a syntax error, corrected after a prediction
+      question — distinguished access control (`private`) from syntactic
+      placement inside the class). Second attempt included `currentPage` as a
+      required parameter, self-caught and corrected before writing code: "total
+      pages of a book will differ from book to book... i mixed up the
+      requirements and automatic set fields." Needed the `this` keyword taught
+      fresh (parameter/field name shadowing) and explained back correctly
+      unprompted. Two wrong attempts at reaching an enum constant and a static
+      method (`BookStatus(WANT_TO_READ)`, `LocalDate(LocalDate)` — calling a
+      type name like a function) corrected by teaching dot notation for both a
+      fixed enum constant and a static method call; explained the difference
+      (constant vs. computed value) back correctly afterward.
+- [x] 2.4 — Write `Book`'s `toString()` method so a Book prints its own details.
+      ✓ `@Override public String toString()`, one return statement concatenating
+      all six fields with `\n` between each, labeled. Several wrong attempts
+      corrected along the way: wrapping the whole expression in `String(...)`
+      (same "call the type name like a function" mistake as `BookStatus`/
+      `LocalDate` in 2.3 — self-recognized the pattern once asked); six separate
+      `return` statements instead of one, corrected after a question about what
+      `return` actually does (exits immediately, hands the value to the
+      *caller*, not "back to the class" — needed one correction on that
+      phrasing, then explained it back correctly); hardcoded
+      `BookStatus.WANT_TO_READ` / `LocalDate.now()` instead of referencing the
+      real `status`/`dateAdded` fields, self-corrected after being asked what a
+      changed/older book would wrongly print; `/n` instead of `\n` for line
+      breaks, looked up and self-corrected; `currentPage` missing entirely from
+      the output with `totalPages` mislabeled under "Current Page," self-caught
+      by tracing the concatenation piece by piece.
+- [x] 2.5 — In `Main.java`, create three hardcoded `Book` objects, put them in an
+      ArrayList, and print the whole list. ✓ `ArrayList<Book>`, three `new
+      Book(...)` calls nested directly inside `.add(...)`, one `System.out
+      .println(book)` printing the whole list — no loop needed yet (`ArrayList`'s
+      own `toString()` calls each element's `toString()` automatically, deferred
+      to Section 3). Two real mistakes corrected: `new ArrayList<>;` missing its
+      `()` (got fully stuck on this one, needed a direct explanation rather than
+      a guided question); `.add()` called with three raw values instead of a
+      built `Book` object, same fix applied unprompted to the remaining two
+      lines once shown one worked example. Ran the program, predicted the
+      output correctly beforehand, and closed by explaining unprompted why real
+      field values printed instead of `Book@1a2b3c` — tied `toString()`'s
+      override back to this exact result.
+
+**Section 2 complete** — all five tasks done. Deliverable met: running the
+program prints a list of three hardcoded books with their full details.
 
 ### Section 3 — A working console app
 

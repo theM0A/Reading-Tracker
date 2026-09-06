@@ -48,9 +48,9 @@ so it's versioned alongside the code and survives across sessions.
 | `.idea/` | generated | IntelliJ's own project metadata (window layout, module config) — created automatically the moment the folder was opened as an IntelliJ project. Machine/personal state, not shared — hence it's in `.gitignore`. |
 | `.git/` | generated | Git's internal database — every commit, the staging area, branch info. Created empty by `git init` in task 1.2; nothing was tracked automatically, tracking required a separate `git add` step. Never touched by hand. |
 | `src/main/java/` | known | Where Java source lives — Maven convention, adopted early even before Maven's installed, so the structure doesn't need to change later. |
-| `src/main/java/Main.java` | known | Entry point. Task 1.3: written by hand, printing "Hello Reader" — proof a Java program can run before any real app logic exists. |
+| `src/main/java/Main.java` | known | Entry point. Task 1.3: written by hand, printing "Hello Reader." Task 2.5: builds three `Book` objects, stores them in an `ArrayList<Book>`, and prints the whole list — proof the Book class works end to end in memory. |
 | `src/main/java/BookStatus.java` | known | Task 2.1: enum of the four fixed statuses from task 0.2 — `WANT_TO_READ`, `CURRENTLY_READING`, `FINISHED`, `DROPPED`. First enum written from scratch. |
-| `src/main/java/Book.java` | known | Task 2.2 (in progress): the six private fields from the paper sketch. Constructor and `toString()` still to come in 2.3/2.4. |
+| `src/main/java/Book.java` | known | Task 2.2: the six private fields. Task 2.3: constructor taking `title`/`author`/`totalPages` as required parameters, defaulting `currentPage`/`status`/`dateAdded`. Task 2.4: `toString()` concatenating all six fields into a labeled, multi-line `String`. |
 
 ---
 

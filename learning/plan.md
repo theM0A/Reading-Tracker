@@ -340,9 +340,17 @@ entirely through the menu, and I can't crash it with bad input.
       compile error (`book.isEmpty` missing `()`) by reading the actual
       compiler message rather than being told the answer. Ran it, confirmed
       all three books print numbered 1–3 with full details.
-- [ ] 3.3 — Wire "Add a book": prompt for title, author, total pages via
+- [x] 3.3 — Wire "Add a book": prompt for title, author, total pages via
       `Scanner`. Validate against 0.4's rules (non-empty title/author,
-      totalPages > 0) and re-prompt instead of crashing on bad input.
+      totalPages > 0) and re-prompt instead of crashing on bad input. ✓ Three
+      validation `while` loops (`title`/`author`/`totalPages` declared before
+      their loops), `new Book(title, author, totalPages)` added to the list.
+      Two real bugs hit and independently diagnosed: `new book(...)`
+      (lowercase variable used instead of the `Book` class — cannot-find-
+      symbol error) and the classic `nextInt()` → `nextLine()` leftover-`\n`
+      double-prompt, fixed with a discard `scanner.nextLine();` after every
+      `nextInt()`. First full post-task quiz (4 transfer questions) plus a
+      synthesis walkthrough, both per updated teaching-style feedback.
 - [ ] 3.4 — Wire "Update current page": pick a book from the list, read a new
       page number, validate it's >= 0 and <= that book's totalPages.
 - [ ] 3.5 — Wire "Change status": pick a book, choose a target status, and

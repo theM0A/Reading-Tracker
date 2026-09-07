@@ -38,6 +38,7 @@ so it's versioned alongside the code and survives across sessions.
 | `learning/plan.md` | known | The five locked technical decisions with reasoning and rejected alternatives, plus the nine build sections. The "how and in what order" — changes as the plan evolves. |
 | `learning/knowledge-graph.md` | known | Status of every concept this project teaches, from `seed` to `understood`. Decides what I get quizzed on. Updated after every lesson. |
 | `learning/file-map.md` | known | This file. Keeps every other file explainable. |
+| `learning/study-method.md` | known | Written by me on 2026-09-06: daily working rhythm (cold-attempt first, recall before the next task), the stuck-timer guardrail, phase-boundary rebuild/teach-back checkpoints, and the 4-step Feynman recipe. Now folded into `CLAUDE.md`'s protocols so Claude Code actually holds me to it. |
 
 ### Project root (Section 1)
 

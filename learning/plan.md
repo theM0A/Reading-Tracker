@@ -351,8 +351,31 @@ entirely through the menu, and I can't crash it with bad input.
       double-prompt, fixed with a discard `scanner.nextLine();` after every
       `nextInt()`. First full post-task quiz (4 transfer questions) plus a
       synthesis walkthrough, both per updated teaching-style feedback.
-- [ ] 3.4 — Wire "Update current page": pick a book from the list, read a new
-      page number, validate it's >= 0 and <= that book's totalPages.
+- [x] 3.4 — Wire "Update current page": pick a book from the list, read a new
+      page number, validate it's >= 0 and <= that book's totalPages. ✓ Introduced
+      getters/setters to expose `Book`'s private fields safely — `getTitle()`,
+      `getTotalPages()`, `getCurrentPage()`, `setCurrentPage(int)` — self-added the
+      title/currentPage getters unprompted once `Main` needed them. Wired
+      `number == 3`: numbered book list (reusing 3.2's pattern), a validation
+      `while` loop for the chosen book, current-page display, a new-page prompt, a
+      second validation `while` loop against `0` and `getTotalPages()`, then
+      `setCurrentPage()` and a printed confirmation. Three real bugs found and
+      fixed via predict-first: (1) a boundary-operator bug — `bookNumber >=
+      book.size()` wrongly rejected the last valid choice (e.g. `3` out of 3
+      books) — corrected to `>` after walking the comparison with real numbers;
+      (2) an off-by-one indexing bug — the displayed 1-based `bookNumber` used
+      directly as a 0-based array index — corrected to `bookNumber - 1` across all
+      four usages, self-located every occurrence once told which two bugs
+      existed; (3) self-caught that `newPage <= 0` violated 0.4's own rule that 0
+      is a valid current page, reasoned through with a real scenario ("some days u
+      dont read a single page") and corrected to `newPage < 0`. Post-task quiz:
+      clean transfer answers on off-by-one and boundary-operator reasoning and a
+      correct, unprompted void-vs-return analogy; the status-getter/setter
+      transfer question (prepping 3.5) needed three rounds of correction before
+      landing `public BookStatus getStatus()` / `public void setStatus(BookStatus
+      status)` — first tried `String`, then the bare keyword `enum`, before using
+      the real type name. Full unprompted synthesis walkthrough of the whole
+      task's pipeline, no hand-waving.
 - [ ] 3.5 — Wire "Change status": pick a book, choose a target status, and
       enforce the transition rules from 0.3 (reject illegal moves with a
       message, don't silently apply anything).

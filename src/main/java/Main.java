@@ -52,6 +52,53 @@ public class Main {
                 }
 
                  book.add(new Book(title, author, totalPages));
+
+            } else if (number == 3) {
+
+                int bookList = 0;
+                int newPage = 0;
+
+                // Check if library is empty
+                if(book.isEmpty()) {
+                    System.out.println("No bookes in library yet.");
+                } else {
+                    // Show list of books in library
+                    for (int i = 0; i < book.size(); i++){
+                        System.out.println((i + 1) + "." + book.get(i).getTitle());
+                    }
+
+                    // Prompt to choose a book that'll be updated
+                    System.out.print("Enter the book you want to update from the list (1,2,3):");
+                    bookList = scanner.nextInt();
+
+                    // Validate bookList choosen is in range of library list
+                    while(bookList <= 0 || bookList > book.size()) {
+                        System.out.print("Invalid choice: ");
+                        bookList = scanner.nextInt();
+                    }
+
+                    // Show the current page
+                    System.out.println(book.get(bookList - 1).getTitle() + "\n" + "Current page: " +
+                            book.get(bookList - 1).getCurrentPage());
+
+                    // Prompt for a new page
+                    System.out.print("Add a new page number: ");
+                    newPage = scanner.nextInt();
+
+                    // Validate it aginst 0 and getTotalPages() method
+                    while(newPage < 0 || newPage > book.get(bookList - 1).getTotalPages()) {
+                        System.out.print("Invalid input: ");
+                        newPage = scanner.nextInt();
+                    }
+
+                    // Call setCurrentPage() method
+                    book.get(bookList -1 ).setCurrentPage(newPage);
+
+                    // Print updated book
+                    System.out.println(book.get(bookList - 1));
+
+                }
+
             }
         }
         System.out.println("Goodbye!");

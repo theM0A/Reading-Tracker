@@ -7,7 +7,7 @@ made it, because a tool generated it, because a tutorial said to — it gets an 
 here before I move on. A file I can't explain is a gap in my understanding sitting
 in plain sight.
 
-**Last updated:** 2026-08-31
+**Last updated:** 2026-09-07
 
 ---
 
@@ -49,9 +49,9 @@ so it's versioned alongside the code and survives across sessions.
 | `.idea/` | generated | IntelliJ's own project metadata (window layout, module config) — created automatically the moment the folder was opened as an IntelliJ project. Machine/personal state, not shared — hence it's in `.gitignore`. |
 | `.git/` | generated | Git's internal database — every commit, the staging area, branch info. Created empty by `git init` in task 1.2; nothing was tracked automatically, tracking required a separate `git add` step. Never touched by hand. |
 | `src/main/java/` | known | Where Java source lives — Maven convention, adopted early even before Maven's installed, so the structure doesn't need to change later. |
-| `src/main/java/Main.java` | known | Entry point. Task 1.3: written by hand, printing "Hello Reader." Task 2.5: builds three `Book` objects, stores them in an `ArrayList<Book>`, and prints the whole list. Task 3.1: added a `Scanner` and a `while` loop printing a numbered menu and reading a choice each pass, exiting cleanly on 6. Task 3.2: wired option 1 (View) to the real `book` `ArrayList` — an empty-list check and an indexed `for` loop printing each book numbered. Task 3.3: wired option 2 (Add) — three validation `while` loops collecting title/author/totalPages, then `new Book(...)` added to the list; also consumes the leftover newline after the menu's `nextInt()` to avoid the classic double-prompt bug. Remaining options still unwired, that's Sections 3.4–3.7. |
+| `src/main/java/Main.java` | known | Entry point. Task 1.3: written by hand, printing "Hello Reader." Task 2.5: builds three `Book` objects, stores them in an `ArrayList<Book>`, and prints the whole list. Task 3.1: added a `Scanner` and a `while` loop printing a numbered menu and reading a choice each pass, exiting cleanly on 6. Task 3.2: wired option 1 (View) to the real `book` `ArrayList` — an empty-list check and an indexed `for` loop printing each book numbered. Task 3.3: wired option 2 (Add) — three validation `while` loops collecting title/author/totalPages, then `new Book(...)` added to the list; also consumes the leftover newline after the menu's `nextInt()` to avoid the classic double-prompt bug. Task 3.4: wired option 3 (Update current page) — numbered book list via `getTitle()`, a validation `while` loop for the chosen book number, current-page display via getters, a new-page prompt with its own validation `while` loop against `0` and `getTotalPages()`, then `setCurrentPage()` and a printed confirmation. Every list-index usage subtracts 1 from the displayed (1-based) book number to reach the real (0-based) `ArrayList` index. Remaining options still unwired, that's Sections 3.5–3.7. |
 | `src/main/java/BookStatus.java` | known | Task 2.1: enum of the four fixed statuses from task 0.2 — `WANT_TO_READ`, `CURRENTLY_READING`, `FINISHED`, `DROPPED`. First enum written from scratch. |
-| `src/main/java/Book.java` | known | Task 2.2: the six private fields. Task 2.3: constructor taking `title`/`author`/`totalPages` as required parameters, defaulting `currentPage`/`status`/`dateAdded`. Task 2.4: `toString()` concatenating all six fields into a labeled, multi-line `String`. |
+| `src/main/java/Book.java` | known | Task 2.2: the six private fields. Task 2.3: constructor taking `title`/`author`/`totalPages` as required parameters, defaulting `currentPage`/`status`/`dateAdded`. Task 2.4: `toString()` concatenating all six fields into a labeled, multi-line `String`. Task 3.4: added getters/setters so `Main` can read and change private fields safely — `getTitle()`, `getTotalPages()`, `getCurrentPage()`, and `setCurrentPage(int)`; the first two title/currentPage getters were self-added, unprompted, once `Main.java` needed them. |
 
 ---
 

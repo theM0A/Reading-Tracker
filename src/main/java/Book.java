@@ -20,6 +20,24 @@ public class Book {
         dateAdded = LocalDate.now(); //default
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    // so Main can read the ceiling for validation
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    // so Main can apply the changes
+    public void setCurrentPage(int newPage) {
+        this.currentPage = newPage;
+    }
+
     @Override
     public String toString(){
         return "Title: " + title + "\nAuthor: " + author + "\nTotal Pages: " + totalPages + "\nCurrent Page: "

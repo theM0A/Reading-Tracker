@@ -379,9 +379,16 @@ entirely through the menu, and I can't crash it with bad input.
 - [ ] 3.5 — Wire "Change status": pick a book, choose a target status, and
       enforce the transition rules from 0.3 (reject illegal moves with a
       message, don't silently apply anything).
-- [ ] 3.6 — Wire "Delete a book": pick a book, remove it from the ArrayList,
+- [ ] 3.6 — Scope gap found during 3.5 planning: `project.md`'s MVP list for
+      "Add a new book" includes an optional starting status (for logging a book
+      already finished, in progress, or dropped, not just new pickups), but task
+      3.3 never built it — new books always default to `WANT_TO_READ`. Revisit
+      the Add flow (`number == 2`) and reuse 3.5's status-selection mechanism
+      (mapping a user's number choice to a `BookStatus` constant) to let the
+      creator optionally pick a starting status instead of always defaulting.
+- [ ] 3.7 — Wire "Delete a book": pick a book, remove it from the ArrayList,
       confirm removal.
-- [ ] 3.7 — Handle bad non-numeric input everywhere `Scanner` reads a number
+- [ ] 3.8 — Handle bad non-numeric input everywhere `Scanner` reads a number
       (e.g., typing "abc" for total pages) without crashing — catch the
       exception, show a message, re-prompt.
 

@@ -24,7 +24,7 @@ public class Book {
         return title;
     }
 
-    // so Main can read the ceiling for validation
+    // Getters so Main can read the ceiling for validation
     public int getTotalPages() {
         return totalPages;
     }
@@ -33,9 +33,17 @@ public class Book {
         return currentPage;
     }
 
-    // so Main can apply the changes
-    public void setCurrentPage(int newPage) {
-        this.currentPage = newPage;
+    public BookStatus getStatus() {
+        return status;
+    }
+
+    // Setters so Main can apply the changes
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public void setStatus(BookStatus status) {
+        this.status = status;
     }
 
     @Override

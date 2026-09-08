@@ -89,6 +89,11 @@ head and distracting me. None of it enters the codebase until the MVP is deploye
 - Reading history: list of all sessions for a book
 - Average pages per session
 - Track rereads: a counter for how many times a book has been reread
+- Log the date/time of each status change (e.g., when a book moved to Currently
+  Reading, Finished, etc.) — a status-change history, distinct from reading
+  sessions above. Idea surfaced during task 3.5 (Change Status wiring) on
+  2026-09-08 — self-parked without being prompted, while explaining the task's
+  end-to-end synthesis.
 
 ### Status model (v2+)
 

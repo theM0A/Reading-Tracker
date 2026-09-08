@@ -376,9 +376,56 @@ entirely through the menu, and I can't crash it with bad input.
       status)` — first tried `String`, then the bare keyword `enum`, before using
       the real type name. Full unprompted synthesis walkthrough of the whole
       task's pipeline, no hand-waving.
-- [ ] 3.5 — Wire "Change status": pick a book, choose a target status, and
+- [x] 3.5 — Wire "Change status": pick a book, choose a target status, and
       enforce the transition rules from 0.3 (reject illegal moves with a
-      message, don't silently apply anything).
+      message, don't silently apply anything). ✓ Added `getStatus()`/
+      `setStatus(BookStatus status)` to `Book.java`, matching the existing
+      getter/setter pattern. Wired `number == 4` in `Main.java`: reused 3.4's
+      book-selection pattern, then built a target-status submenu by looping
+      `BookStatus.values()` (self-taught from outside the curriculum, correctly
+      disclosed and explained as an enum-type-generated method returning all
+      constants) instead of hardcoding four print lines. Mapped the chosen
+      number to a target status via an `if/else if` chain, each branch checking
+      the `(currentStatus, targetStatus)` pair against 0.3's 5 legal moves
+      before calling `setStatus()`; `choice` (the selected book's index) is
+      what keeps every step pointed at the same book. Real bugs found and
+      fixed, in order: (1) a boundary regression reintroducing `< 0` instead of
+      3.4's `<= 0`, letting `0` slip through and crash `book.get(-1)`, self-
+      fixed once asked to predict what `0` would do; (2) an infinite loop from
+      validating "target = Want to Read" against the book's *current* status
+      instead of unconditionally rejecting it — traced via predict-first
+      questioning to realize 0.3's actual rule ("nothing transitions to Want to
+      Read") never depends on current status at all, so the check itself was
+      answering the wrong question, not just missing a status-update call; (3)
+      a `String` `==` vs `.equals()` bug on the reread-confirmation prompt
+      (`answer == "y"`), self-fixed before the exact issue was named, though
+      the underlying reference-vs-content mechanism needed to be taught outright
+      when asked directly ("honestly idk"); (4) the missing
+      `DROPPED → CURRENTLY_READING` legal-move case, independently added after
+      being asked to trace that branch against the 5 legal moves; (5) a
+      leftover-`\n` Scanner bug on the reread prompt (same shape as 3.3's
+      double-prompt bug in a new spot) — self-diagnosed unprompted after being
+      pointed back to the earlier bug's mechanism, fixed by placing
+      `scanner.nextLine()` immediately before the read that needed it. Verified
+      end-to-end with three real runs: a Finished book rereading via `y`
+      (status flips to Currently Reading), an illegal Want-to-Read target
+      (correctly rejected, status untouched), and the Dropped → Currently
+      Reading pick-up path. Post-task quiz (4 transfer questions): nextInt/
+      nextLine transfer to a hypothetical Delete feature was clean and
+      unprompted; `==`/`.equals()` transfer landed the right conclusion but
+      needed the underlying mechanism taught directly; extending the branch
+      structure for a hypothetical 5th "On Hold" status needed one round to
+      name both required additions (a new branch, not just a new `else if`);
+      a `setTitle` shadowing transfer needed one correction (initially said
+      `this.` was for "knowing which object," and that `title = title` would
+      change the field's *name* — both corrected by reapplying the `setStatus`
+      reasoning already worked out earlier in the session). Full unprompted
+      synthesis walkthrough of the whole task afterward, correct after two
+      small corrections (the `choice` index, not getters, is what keeps every
+      step pointed at the same book; the *feature* returns to the menu loop,
+      the *program* doesn't exit). Self-parked a real idea (logging the
+      date/time of each status change) into `project.md` mid-synthesis,
+      unprompted.
 - [ ] 3.6 — Scope gap found during 3.5 planning: `project.md`'s MVP list for
       "Add a new book" includes an optional starting status (for logging a book
       already finished, in progress, or dropped, not just new pickups), but task

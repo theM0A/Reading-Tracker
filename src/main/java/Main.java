@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Main {
 
@@ -17,9 +18,27 @@ public class Main {
         int number = 0;
 
         while(number != 6) {
+
+            number = 0;
             System.out.println("Menu:\n 1.View \n 2.Add \n 3.Update Page \n 4.Change Status \n 5.Delete \n 6.Exit");
+
             System.out.print("Enter a number to choose an option:");
-            number = scanner.nextInt();
+            try {
+                number = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("That was not a valid number");
+                scanner.nextInt();
+            }
+
+            while(number <= 0 || number > 6) {
+                System.out.print("Enter a menu option:");
+                try {
+                    number = scanner.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("That was not a valid number");
+                    scanner.nextLine();
+                }
+            }
             scanner.nextLine(); // consumes the leftover \n so next .nextLine() method doesnt pick up empty entry
 
             // View library
@@ -50,7 +69,12 @@ public class Main {
                 }
                 while(totalPages <= 0) {
                     System.out.print("Enter total pages:");
-                    totalPages = scanner.nextInt();
+                    try {
+                        totalPages = scanner.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("That was not a valid number");
+                        scanner.nextLine();
+                    }
                 }
 
                 Book newBook = new Book(title, author, totalPages);
@@ -67,11 +91,21 @@ public class Main {
                         System.out.println((i + 1) + "." + BookStatus.values()[i]);
                     }
                     System.out.print("Choose a status option:");
-                    statusOption = scanner.nextInt();
+                    try {
+                        statusOption = scanner.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("That was not a valid number");
+                        scanner.nextLine();
+                    }
 
                     while(statusOption <= 0 || statusOption > BookStatus.values().length){
                         System.out.println("Invalid choice:");
-                        statusOption = scanner.nextInt();
+                        try {
+                            statusOption = scanner.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("That was not a valid number");
+                            scanner.nextLine();
+                        }
                     }
 
                     newBook.setStatus(BookStatus.values()[statusOption - 1]);
@@ -99,12 +133,22 @@ public class Main {
 
                     // Prompt to choose a book that'll be updated
                     System.out.print("Enter the book you want to update from the list (1,2,3):");
-                    bookList = scanner.nextInt();
+                    try {
+                        bookList= scanner.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("That was not a valid number");
+                        scanner.nextLine();
+                    }
 
                     // Validate bookList choosen is in range of library list
                     while(bookList <= 0 || bookList > book.size()) {
                         System.out.print("Invalid choice: ");
-                        bookList = scanner.nextInt();
+                        try {
+                            bookList= scanner.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("That was not a valid number");
+                            scanner.nextLine();
+                        }
                     }
 
                     // Show the current page
@@ -113,12 +157,22 @@ public class Main {
 
                     // Prompt for a new page
                     System.out.print("Add a new page number: ");
-                    currentPage = scanner.nextInt();
+                    try {
+                        currentPage = scanner.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("That was not a valid number");
+                        scanner.nextLine();
+                    }
 
                     // Validate it aginst 0 and getTotalPages() method
                     while(currentPage < 0 || currentPage > book.get(bookList - 1).getTotalPages()) {
                         System.out.print("Invalid input: ");
-                        currentPage = scanner.nextInt();
+                        try {
+                            currentPage= scanner.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("That was not a valid number");
+                            scanner.nextLine();
+                        }
                     }
 
                     // Call setCurrentPage() method
@@ -131,7 +185,7 @@ public class Main {
             } // Change book status
             else if(number == 4) {
 
-                int choice;
+                int choice = 0;
 
                 // Book selection for status change
                 System.out.println("Library:\n");
@@ -142,7 +196,12 @@ public class Main {
                 }
 
                 System.out.print("Choose book whose status you want to change (1,2,3):");
-                choice = scanner.nextInt();
+                try {
+                    choice = scanner.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("That was not a valid number");
+                    scanner.nextLine();
+                }
                 scanner.nextLine();
 
                 // Validate against book size (library)
@@ -153,7 +212,12 @@ public class Main {
                     }
                     System.out.println();
                     System.out.print("Choose a book in your library:");
-                    choice = scanner.nextInt();
+                    try {
+                        choice = scanner.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("That was not a valid number");
+                        scanner.nextLine();
+                    }
                 }
 
                 System.out.println("Title:" + book.get(choice - 1).getTitle() + "\n" + "Status:" + book.get(choice - 1).getStatus());
@@ -162,13 +226,19 @@ public class Main {
 
 
                 // Prompt to choose status
+                int statusChoice = 0;
                 System.out.println("Choose a new status for book:");
                 for(int i = 0; i < BookStatus.values().length; i++) {
                     System.out.println((i + 1) + "." + BookStatus.values()[i]);
                 }
 
                 System.out.print("New book status:");
-                int statusChoice = scanner.nextInt();
+                try {
+                    statusChoice = scanner.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("That was not a valid number");
+                    scanner.nextLine();
+                }
 
                 // Validate it against BookStatus length
                 while(statusChoice <= 0 || statusChoice > BookStatus.values().length) {
@@ -177,7 +247,13 @@ public class Main {
                     }
                     System.out.println();
                     System.out.print("Choose a status from menu:");
-                    statusChoice = scanner.nextInt();
+                    try {
+                        statusChoice = scanner.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("That was not a valid number");
+                        scanner.nextLine();
+                    }
+
                 }
 
                 System.out.println();
@@ -244,9 +320,10 @@ public class Main {
                     }
                 }
 
-            }
+            } // Delete book
             else if(number == 5) {
 
+                int deleteChoice = 0;
                 if(book.isEmpty()){
                     System.out.println("No books in library.");
                 }
@@ -257,11 +334,21 @@ public class Main {
                     }
 
                     System.out.print("Choose a book to delete (enter number):");
-                    int deleteChoice = scanner.nextInt();
+                    try {
+                         deleteChoice = scanner.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("That was not a valid number");
+                        scanner.nextLine();
+                    }
 
                     while(deleteChoice <= 0 || deleteChoice > book.size()) {
                         System.out.print("Invalid choice:");
-                        deleteChoice = scanner.nextInt();
+                        try {
+                            deleteChoice = scanner.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("That was not a valid number");
+                            scanner.nextLine();
+                        }
                     }
 
                     System.out.println("\nYou want to delete: " + book.get(deleteChoice - 1).getTitle());

@@ -495,9 +495,58 @@ entirely through the menu, and I can't crash it with bad input.
       adjustment) as the thread running through selection, the confirmation
       message, and the `.remove()` call, plus `deleteConfirm` as the separate
       yes/no gate.
-- [ ] 3.8 — Handle bad non-numeric input everywhere `Scanner` reads a number
+- [x] 3.8 — Handle bad non-numeric input everywhere `Scanner` reads a number
       (e.g., typing "abc" for total pages) without crashing — catch the
-      exception, show a message, re-prompt.
+      exception, show a message, re-prompt. ✓ Wrapped every `scanner.nextInt()`
+      call in the file (menu, Add's totalPages/statusOption, Update Page's
+      bookList/currentPage, Change Status's choice/statusChoice, Delete's
+      deleteChoice) in `try { ... } catch (InputMismatchException e) { ... }`,
+      printing a message and calling `scanner.nextLine()` in the `catch` to
+      clear the unconsumed bad token — self-diagnosed unprompted that without
+      that clear, the same bad text gets re-read and re-thrown forever (an
+      infinite loop distinct from, but related to, the earlier nextInt/nextLine
+      leftover-`\n` bug family). First attempt missed the
+      `import java.util.InputMismatchException;` line — self-diagnosed via a
+      "cannot find symbol" compiler error, transferring the exact reasoning
+      from `LocalDate`'s import in task 2.3 unprompted. Three real bugs found
+      and fixed while extending the pattern across the whole file, none shown
+      or hinted at:
+      (1) wrapping the menu choice in its own new validation `while` loop
+      exposed a pre-existing latent bug — `number` is declared once outside
+      the outer menu loop, so after any feature ran, its old value (e.g. `2`)
+      already satisfied the new loop's exit condition, silently skipping the
+      prompt and re-entering the same feature with no way to pick a new menu
+      option. Self-found and self-fixed by resetting `number = 0` at the top
+      of each outer-loop pass, before the correction was even asked for.
+      (2) In Update Page, an attempt to protect the initial `currentPage` read
+      added a redundant, dead `while(currentPage >= 0)` loop (inverted —
+      should've been `<= `/`<`, but the loop wasn't needed at all once traced,
+      since the very next validation loop already covers both the first read
+      and all retries) — self-diagnosed via predict-first questioning that the
+      loop's condition was never true given its own starting value, then
+      independently recognized and removed the redundancy. This left the
+      initial read briefly unprotected (a regression caught on a follow-up
+      predict-first question — "what happens if you type abc here" — self-
+      fixed by wrapping it in its own `try`/`catch`, matching the `bookList`
+      pattern already in the same block).
+      (3) In Change Status, a pre-existing unconditional `scanner.nextLine()`
+      (from task 3.5, before try/catch existed) sat right after the newly
+      wrapped initial `choice` read. Traced via predict-first questioning
+      through the failure path specifically: when `nextInt()` throws, the
+      `catch` block already clears the bad token via its own `nextLine()`; the
+      old unconditional call then ran a second time against an already-empty
+      buffer, silently swallowing the user's next line of input before any
+      prompt for it appeared. Self-fixed by removing the now-redundant call.
+      The synthesis explanation of this last bug specifically needed two
+      rounds of correction (first said the `nextLine()` "cleared the
+      variable," not the buffer) before a clean, simple, correct restatement
+      landed unprompted.
+
+**Section 3 complete** — all eight tasks done. Deliverable met: the app runs
+entirely through the menu (view, add, update page, change status, delete) and
+no numeric input can crash it. Per `CLAUDE.md`'s phase-boundary protocol, the
+cold-rebuild + whole-phase teach-back checkpoint happens before Section 4
+starts, not automatically — flagged for the next session.
 
 ### Section 4 — Persistence
 

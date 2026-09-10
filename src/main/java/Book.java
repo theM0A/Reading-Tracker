@@ -24,6 +24,8 @@ public class Book {
         return title;
     }
 
+    public String getAuthor() {return author;}
+
     // Getters so Main can read the ceiling for validation
     public int getTotalPages() {
         return totalPages;

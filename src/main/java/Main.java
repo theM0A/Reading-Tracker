@@ -18,10 +18,11 @@ public class Main {
 
         while (number != 6) {
             System.out.println("Menu:\n 1.View \n 2.Add \n 3.Update Page \n 4.Change Status \n 5.Delete \n 6.Exit");
-            System.out.print("Enter a number to choose an option: ");
+            System.out.print("Enter a number to choose an option:");
             number = scanner.nextInt();
             scanner.nextLine(); // consumes the leftover \n so next .nextLine() method doesnt pick up empty entry
 
+            // View library
             if (number == 1){
                 //call the .isEmpty() method
                 if (book.isEmpty()) {
@@ -31,7 +32,8 @@ public class Main {
                         System.out.println((i + 1) + ". " + book.get(i));
                     }
                 }
-            } else if (number == 2) {
+            }  // Add book
+            else if (number == 2) {
 
                 String title = "";
                 String author = "";
@@ -51,9 +53,37 @@ public class Main {
                     totalPages = scanner.nextInt();
                 }
 
-                 book.add(new Book(title, author, totalPages));
+                Book newBook = new Book(title, author, totalPages);
+                String statusCreate = "";
+                int statusOption = 0;
 
-            } else if (number == 3) {
+                scanner.nextLine();
+                System.out.print("Do you want to set book status (y/n):");
+                statusCreate = scanner.nextLine();
+
+                if(statusCreate.equals("y")){
+                    System.out.println("Status options:");
+                    for(int i = 0; i < BookStatus.values().length; i++){
+                        System.out.println((i + 1) + "." + BookStatus.values()[i]);
+                    }
+                    System.out.print("Choose a status option:");
+                    statusOption = scanner.nextInt();
+
+                    while(statusOption <= 0 || statusOption > BookStatus.values().length){
+                        System.out.println("Invalid choice:");
+                        statusOption = scanner.nextInt();
+                    }
+
+                    newBook.setStatus(BookStatus.values()[statusOption - 1]);
+                }
+
+                System.out.println("\nNew Book Added"+ "\n" + "Title:" + newBook.getTitle() + "\n" + "Author:" + newBook.getAuthor() +
+                        "\n" + "Total Page:" + newBook.getTotalPages()+ "\n" + "Status:" + newBook.getStatus() + "\n");
+
+                 book.add(newBook);
+
+            } // Update current page
+            else if (number == 3) {
 
                 int bookList = 0;
                 int currentPage = 0;
@@ -98,7 +128,8 @@ public class Main {
                     System.out.println(book.get(bookList - 1));
 
                 }
-            } else if (number == 4) {
+            } // Change book status
+            else if (number == 4) {
 
                 int choice;
 
@@ -158,9 +189,12 @@ public class Main {
                 // no status can change to want to read
                 // dropped cannot change to finish
                 // on hold cannot cange to finish
+
+                // Checking want to read status rules
                 if (statusChoice == 1){
                         System.out.println("Invalid status change");
-                } else if (statusChoice == 2) {
+                } // Checking Currently reading status rules
+                else if (statusChoice == 2) {
                     if(book.get(choice - 1).getStatus() == BookStatus.WANT_TO_READ) {
                         book.get(choice - 1).setStatus(BookStatus.CURRENTLY_READING);
 
@@ -185,7 +219,8 @@ public class Main {
                     } else {
                         System.out.println("Invalid status change");
                     }
-                } else if (statusChoice == 3) {
+                } // Checking Finished status rules
+                else if (statusChoice == 3) {
                     if(book.get(choice - 1).getStatus() == BookStatus.CURRENTLY_READING){
                         book.get(choice - 1).setStatus(BookStatus.FINISHED);
 
@@ -196,7 +231,8 @@ public class Main {
                         System.out.println("Invalid status change");
                     }
 
-                } else if (statusChoice == 4) {
+                } // Checking Dropped status rules
+                else if (statusChoice == 4) {
                     if(book.get(choice - 1).getStatus() == BookStatus.CURRENTLY_READING) {
                         book.get(choice - 1).setStatus(BookStatus.DROPPED);
 

@@ -426,13 +426,53 @@ entirely through the menu, and I can't crash it with bad input.
       the *program* doesn't exit). Self-parked a real idea (logging the
       date/time of each status change) into `project.md` mid-synthesis,
       unprompted.
-- [ ] 3.6 — Scope gap found during 3.5 planning: `project.md`'s MVP list for
+- [x] 3.6 — Scope gap found during 3.5 planning: `project.md`'s MVP list for
       "Add a new book" includes an optional starting status (for logging a book
       already finished, in progress, or dropped, not just new pickups), but task
       3.3 never built it — new books always default to `WANT_TO_READ`. Revisit
       the Add flow (`number == 2`) and reuse 3.5's status-selection mechanism
       (mapping a user's number choice to a `BookStatus` constant) to let the
       creator optionally pick a starting status instead of always defaulting.
+      **In progress as of 2026-09-08:** design agreed, no code written yet.
+      Chose to keep `Book`'s constructor untouched and reuse `setStatus()` from
+      3.5 instead — construct the book as before (still defaults to
+      `WANT_TO_READ` inside the constructor), hold the reference in a local
+      `Book newBook = new Book(...)` variable instead of adding it inline, then
+      a single `if` (no `else` needed): if the user opts to choose a starting
+      status, run a status-selection submenu (modeled on 3.5's, but *without*
+      3.5's "reject Want to Read" rule — 0.3 explicitly says the initial status
+      chosen at creation isn't a transition, so all four statuses are valid
+      choices here) and call `newBook.setStatus(chosenStatus)`. Correctly
+      self-caught, after being asked to trace the "user says no" case, that
+      `book.add(newBook)` must sit once, after and outside the `if`, not nested
+      only inside the "yes" branch — otherwise a book is silently never added
+      when the user declines to pick a status.
+
+      **Complete 2026-09-09.** Wired the real code in `Main.java`'s
+      `number == 2` branch exactly per the design above: title/author/
+      totalPages validation loops unchanged, `Book newBook = new Book(...)`
+      as a local variable, a leftover-`\n` consumed before the y/n prompt, an
+      `if(statusCreate.equals("y"))` (no `else`) gating an optional status
+      submenu, `book.add(newBook)` sitting once after and outside the `if`.
+      First draft had a real design flaw: a four-branch `if/else if` on
+      `statusOption` where every branch ran the identical
+      `newBook.setStatus(BookStatus.values()[statusOption - 1])` line — pure
+      copy-paste from 3.5's transition-checking chain, where the branches
+      *do* differ. Self-diagnosed in two steps once asked to trace it: first
+      named that all four branches do the same thing, then — after a reminder
+      that `if` needs a boolean in Java, not an int — connected that back to
+      "I already validated `statusOption` with the while loop" and collapsed
+      all four branches to the single line, unprompted. Post-task quiz: clean
+      transfer on a hypothetical genre-picker needing the same single-line
+      pattern (explicitly cited the while-loop validation as *why* no
+      branching is needed); end-to-end synthesis of the whole branch was
+      correct and complete on the first pass. One real correction needed: a
+      trace-question on why `book.add(newBook)` must sit outside the `if`
+      first got "you'd add the default book without considering the user's
+      choice" (wrong mechanism — the `y` path actually works fine either way);
+      corrected by tracing the `n` path concretely, after which said it back
+      exactly right: "the if statement stops, and the program returns back to
+      the main menu" without ever reaching `book.add()`.
 - [ ] 3.7 — Wire "Delete a book": pick a book, remove it from the ArrayList,
       confirm removal.
 - [ ] 3.8 — Handle bad non-numeric input everywhere `Scanner` reads a number

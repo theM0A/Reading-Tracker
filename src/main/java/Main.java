@@ -16,14 +16,14 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int number = 0;
 
-        while (number != 6) {
+        while(number != 6) {
             System.out.println("Menu:\n 1.View \n 2.Add \n 3.Update Page \n 4.Change Status \n 5.Delete \n 6.Exit");
             System.out.print("Enter a number to choose an option:");
             number = scanner.nextInt();
             scanner.nextLine(); // consumes the leftover \n so next .nextLine() method doesnt pick up empty entry
 
             // View library
-            if (number == 1){
+            if(number == 1){
                 //call the .isEmpty() method
                 if (book.isEmpty()) {
                     System.out.println("No books in library yet.");
@@ -33,7 +33,7 @@ public class Main {
                     }
                 }
             }  // Add book
-            else if (number == 2) {
+            else if(number == 2) {
 
                 String title = "";
                 String author = "";
@@ -83,7 +83,7 @@ public class Main {
                  book.add(newBook);
 
             } // Update current page
-            else if (number == 3) {
+            else if(number == 3) {
 
                 int bookList = 0;
                 int currentPage = 0;
@@ -129,7 +129,7 @@ public class Main {
 
                 }
             } // Change book status
-            else if (number == 4) {
+            else if(number == 4) {
 
                 int choice;
 
@@ -191,7 +191,7 @@ public class Main {
                 // on hold cannot cange to finish
 
                 // Checking want to read status rules
-                if (statusChoice == 1){
+                if(statusChoice == 1){
                         System.out.println("Invalid status change");
                 } // Checking Currently reading status rules
                 else if (statusChoice == 2) {
@@ -220,7 +220,7 @@ public class Main {
                         System.out.println("Invalid status change");
                     }
                 } // Checking Finished status rules
-                else if (statusChoice == 3) {
+                else if(statusChoice == 3) {
                     if(book.get(choice - 1).getStatus() == BookStatus.CURRENTLY_READING){
                         book.get(choice - 1).setStatus(BookStatus.FINISHED);
 
@@ -244,6 +244,36 @@ public class Main {
                     }
                 }
 
+            }
+            else if(number == 5) {
+
+                if(book.isEmpty()){
+                    System.out.println("No books in library.");
+                }
+                else {
+                    System.out.println("Library:\n");
+                    for(int i = 0; i < book.size(); i++) {
+                        System.out.println((i + 1) + "." + book.get(i).getTitle());
+                    }
+
+                    System.out.print("Choose a book to delete (enter number):");
+                    int deleteChoice = scanner.nextInt();
+
+                    while(deleteChoice <= 0 || deleteChoice > book.size()) {
+                        System.out.print("Invalid choice:");
+                        deleteChoice = scanner.nextInt();
+                    }
+
+                    System.out.println("\nYou want to delete: " + book.get(deleteChoice - 1).getTitle());
+                    System.out.print("\nAre you sure you want to delete this book (y/n):");
+                    scanner.nextLine();
+                    String deleteConfirm = scanner.nextLine();
+
+                    if(deleteConfirm.equals("y")) {
+                        System.out.println("\nYou deleted: " + book.get(deleteChoice - 1).getTitle() + " from your library.");
+                        book.remove(deleteChoice - 1);
+                    }
+                }
             }
         }
         System.out.println("Goodbye!");

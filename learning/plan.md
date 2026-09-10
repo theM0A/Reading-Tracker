@@ -473,8 +473,28 @@ entirely through the menu, and I can't crash it with bad input.
       corrected by tracing the `n` path concretely, after which said it back
       exactly right: "the if statement stops, and the program returns back to
       the main menu" without ever reaching `book.add()`.
-- [ ] 3.7 — Wire "Delete a book": pick a book, remove it from the ArrayList,
-      confirm removal.
+- [x] 3.7 — Wire "Delete a book": pick a book, remove it from the ArrayList,
+      confirm removal. ✓ Wired `number == 5` in `Main.java`: an `isEmpty()`/`else`
+      guard wrapping the whole feature (matching View/Update's existing pattern),
+      reused the 3.4/3.5 selection shape (numbered list via `getTitle()`, a
+      `deleteChoice` int read and validated against `0`/`book.size()`), a title
+      confirmation message, a y/n gate (`deleteConfirm`, with `scanner.nextLine()`
+      placed correctly before the read to clear the leftover `\n` from the last
+      `nextInt()` — applied unprompted, no bug this time), and `book.remove
+      (deleteChoice - 1)` inside the `y` branch only. First draft had no
+      empty-library guard at all; correctly predicted, before running, that
+      choosing Delete on an empty list would infinite-loop (the validation
+      `while` has no valid input to accept when `book.size()` is 0) and
+      self-fixed by wrapping the feature in the same `isEmpty()`/`else` shape
+      already used in options 1 and 3 — first time this fix was found from a
+      cold prediction with no prior bug of this exact shape shown this session.
+      Post-task quiz: clean, unprompted `nextLine()`-placement transfer question;
+      the synthesis walkthrough initially described *what* the feature does
+      without naming *what mechanism* keeps it pointed at the same book — self-
+      corrected after one nudge to name `deleteChoice` (and its `-1` index
+      adjustment) as the thread running through selection, the confirmation
+      message, and the `.remove()` call, plus `deleteConfirm` as the separate
+      yes/no gate.
 - [ ] 3.8 — Handle bad non-numeric input everywhere `Scanner` reads a number
       (e.g., typing "abc" for total pages) without crashing — catch the
       exception, show a message, re-prompt.

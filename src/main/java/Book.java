@@ -39,6 +39,8 @@ public class Book {
         return status;
     }
 
+    public LocalDate getDateAdded() {return dateAdded;}
+
     // Setters so Main can apply the changes
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;

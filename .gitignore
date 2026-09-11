@@ -6,3 +6,4 @@ files.zip
 #we want to track our (.java files) source code not the .class  files that javac generates every time i compile .java files
 #tracking what i wrote by hand (.java files) not what a tool generates
 *.class
+books.txt

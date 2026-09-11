@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.io.PrintWriter;
+import java.io.FileNotFoundException;
+
 
 public class Main {
 
@@ -363,6 +366,23 @@ public class Main {
                 }
             }
         }
+
+        try {
+            PrintWriter writer = new PrintWriter("books.txt");
+
+            for(int i = 0; i < book.size(); i++) {
+                writer.println(book.get(i).getTitle() + "\n" + book.get(i).getAuthor() + "\n" +
+                        book.get(i).getTotalPages() + "\n" + book.get(i).getCurrentPage() + "\n" +
+                        book.get(i).getStatus() + "\n" + book.get(i).getDateAdded());
+                writer.println();
+            }
+
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Invalid input");
+        }
+
+
         System.out.println("Goodbye!");
     }
 }

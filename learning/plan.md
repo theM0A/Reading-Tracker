@@ -582,6 +582,74 @@ JDBC, connections and statements.
 **Deliverable:** add books, close the program, reopen it, and the books are still
 there — first from a file, then from a database.
 
+**Tasks:**
+
+- [x] 4.1 — Decide the file format for saving a book to plain text: what does one
+      saved book look like as text, and what does the whole file look like with
+      several books in it? ✓ Chose one field per line, blank line between books
+      (Option C over a single-line-per-book comma or `|`-separated format), reasoning
+      through the real tradeoff unprompted: more readable and immune to a field
+      containing the separator character, at the cost of load logic having to track
+      line position ("which field it's on for each book") rather than a single split
+      call, and being fragile if any field itself ever spans multiple lines (e.g. a
+      multi-line title). Correctly explained why this decision has to happen before
+      writing save (4.2) or load (4.3): both sides must agree on the same shape or
+      "there isn't any mixing of fields or breaks within receiving data" — the format
+      is a contract between the two, not an independent choice each makes.
+      **Revisited same session:** self-questioned whether C's readability advantage
+      was real, correctly noting the load logic reads positionally regardless of
+      book count — separated "benefit to the parser" (none) from "benefit to me
+      debugging by eye" (real) and confirmed the latter is the actual reason for C.
+      Also re-examined the multi-line-field risk raised for both A and C; initial
+      answer wrongly framed `nextLine()`'s Enter keystroke as something the
+      assignment "stores," corrected via a concrete character-count question
+      (`Dune` = 4 chars, not 5) — landed the real mechanism unprompted afterward:
+      `nextLine()` never includes the terminating newline in the returned string,
+      so a raw newline can't end up inside a field typed at the console, and the
+      multi-line risk doesn't apply given the current input method. Final answer
+      stayed Option C, now for the correct, isolated reason.
+- [x] 4.2 — Write the save logic: turn the `ArrayList<Book>` into that text format
+      and write it to a file on disk. ✓ A `try { PrintWriter writer = new
+      PrintWriter("books.txt"); ... } catch (FileNotFoundException e) { ... }` block
+      placed right after the menu's `while` loop ends (triggers once, on Exit), a
+      `for` loop over `book` writing all six fields per book as one concatenated
+      `println()` with `\n`s between them (reusing the `toString()` concatenation
+      technique from 2.4) plus a separate blank `println()` after each book, then
+      `writer.close()`. First draft put the `PrintWriter` constructor call *outside*
+      the `try` block entirely — correctly predicted, before writing anything, that
+      constructing a fresh `PrintWriter` for the same file on every loop pass would
+      wipe out the previous book's data each time (a new bug shape: file-truncation
+      on open, not the boundary/off-by-one/leftover-buffer families seen before) and
+      independently concluded it must be opened once, outside the loop. Self-
+      diagnosed the outside-the-try placement once asked to locate the exact risky
+      line and check it against the try block's braces, moved it in, compiled clean.
+      Post-task quiz needed two corrections: first said the one-`println()`-with-`\n`
+      vs. six-separate-`println()` choice "matters" by reciting the save/load-must-
+      match principle from 4.1 (answering an adjacent question, not the one asked) —
+      corrected by pointing back at the actual file content, then concluded correctly
+      that the file itself is identical either way. Second, described
+      `FileNotFoundException` here as protecting against a save/load format mismatch
+      or a deleted file (conflating this exception with 4.3's territory) — corrected
+      with the real mechanism (a missing file is not an error for `PrintWriter`,
+      which creates it fresh; the actual risk is the OS refusing to let the program
+      create/open the file for writing at all) — re-explained correctly and
+      concretely afterward, unprompted, with real examples (read-only disk,
+      permissions). Full end-to-end synthesis of the whole task, unprompted and
+      correct on the first pass, no corrections needed.
+- [ ] 4.3 — Write the load logic: read the file back on startup and rebuild the
+      `ArrayList<Book>` from it.
+- [ ] 4.4 — Wire save/load into the real program: decide when save actually runs
+      (every change, or only on exit) and confirm data survives a real close/reopen.
+- [ ] 4.5 — SQLite: design and create the `books` table (schema) matching `Book`'s
+      fields.
+- [ ] 4.6 — JDBC: connect to the SQLite database file from Java.
+- [ ] 4.7 — Replace file save with a real SQL `INSERT` through JDBC.
+- [ ] 4.8 — Replace file load with a real SQL `SELECT` through JDBC, rebuilding the
+      `ArrayList<Book>` (or querying directly, depending on what 4.6/4.7 reveal).
+- [ ] 4.9 — Replace the remaining file-based logic with SQL `UPDATE` (page/status
+      changes) and `DELETE` through JDBC — this retires the plain-text file
+      entirely.
+
 ### Section 5 — A page in a browser
 
 First Spring Boot project. A controller method that responds to a URL. A Thymeleaf

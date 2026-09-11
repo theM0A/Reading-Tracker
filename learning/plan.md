@@ -636,10 +636,57 @@ there — first from a file, then from a database.
       concretely afterward, unprompted, with real examples (read-only disk,
       permissions). Full end-to-end synthesis of the whole task, unprompted and
       correct on the first pass, no corrections needed.
-- [ ] 4.3 — Write the load logic: read the file back on startup and rebuild the
-      `ArrayList<Book>` from it.
-- [ ] 4.4 — Wire save/load into the real program: decide when save actually runs
+- [x] 4.3 — Write the load logic: read the file back on startup and rebuild the
+      `ArrayList<Book>` from it. ✓ Removed the three hardcoded startup books and
+      the leftover `System.out.println(book)` debug line from 2.5 (correctly
+      reasoned unprompted that they'd cause duplicates once load exists). A
+      `try { Scanner fileScanner = new Scanner(new File("books.txt")); while
+      (fileScanner.hasNextLine()) { ... } } catch (FileNotFoundException e) { ... }`
+      block, placed after `ArrayList<Book> book` is declared (self-corrected an
+      initial placement *before* it, once asked whether the block would work
+      sitting above where `book` is declared). Inside the loop: seven
+      `fileScanner.nextLine()` calls per book — six stored into `String` variables
+      matching the save order, one left bare to consume the blank separator line
+      (reasoned through via a concrete line-by-line trace after saying "I don't
+      know" outright — a genuine new-territory stuck point, not a bluffed guess).
+      Real bugs hit and resolved: a missing `import java.io.File;` self-diagnosed
+      via the same "cannot find symbol" pattern as `LocalDate` (2.3) and
+      `InputMismatchException` (3.8); naming the `Scanner` variable `File`
+      (shadowing the actual class name) self-corrected once flagged as a
+      readability issue; writing `new Book(String title, String author, int
+      Integer.parseInt(totalPages))` — constructor *parameters* instead of a
+      constructor *call* — corrected by comparing against the working call
+      pattern already in the Add feature (3.3); and `Book newBook =
+      book.add(new Book(...))`, a real type-mismatch compile error
+      ("boolean cannot be converted to Book"), independently diagnosed by reading
+      the exact message and reasoning out that `.add()` returns success/failure,
+      not the object — split back into two lines correctly. `Integer.parseInt`
+      (taught) and `BookStatus.valueOf` (taught) convert `totalPages`/`status`
+      back to real types via `newBook.setCurrentPage(...)` /
+      `newBook.setStatus(...)`; `LocalDate.parse(dateAdded)` was self-looked-up
+      and disclosed unprompted when asked. Found a real design gap: `Book` had no
+      `setDateAdded()` (by design, from 0.1/0.3 — date added isn't meant to be
+      freely editable). Added one, then correctly reasoned through why this
+      doesn't violate the original rule ("we are still keeping the date the book
+      was added, just giving that value to the new book object" — restoring true
+      history, not falsifying it) and, when pushed on the residual risk of a
+      *public* setter, accepted that a guarding comment (not a bigger
+      access-control mechanism) is the right-sized fix at this project's scale.
+      Separately asked whether restoring field values before vs. after
+      `book.add(newBook)` mattered — correctly named the reference mechanism
+      ("`.add` is referencing the memory address... not the actual content") but
+      drew the opposite conclusion from it at first; corrected with a concrete
+      address trace and re-explained cleanly afterward. Verified end-to-end: added
+      real books through the menu, exited (save), relaunched (load), confirmed
+      every field including the true original `dateAdded` came back correctly via
+      View. Full round-trip synthesis (load → menu use → save → truncate-on-reopen)
+      given unprompted, complete, and correct on the first pass.
+- [x] 4.4 — Wire save/load into the real program: decide when save actually runs
       (every change, or only on exit) and confirm data survives a real close/reopen.
+      ✓ Settled as a natural consequence of 4.2/4.3: save runs once, on Exit
+      (decided in 4.2); load runs once, at startup (4.3). The real close/reopen
+      test in 4.3's verification satisfies this task's deliverable directly — no
+      separate design decision was left open by the time 4.3 finished.
 - [ ] 4.5 — SQLite: design and create the `books` table (schema) matching `Book`'s
       fields.
 - [ ] 4.6 — JDBC: connect to the SQLite database file from Java.

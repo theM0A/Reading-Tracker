@@ -3,6 +3,8 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
+import java.io.File;
+import java.time.LocalDate;
 
 
 public class Main {
@@ -11,11 +13,40 @@ public class Main {
 
         ArrayList<Book> book = new ArrayList<>();
 
-        book.add(new Book("Red Rising", "Pierce Brown", 355));
-        book.add(new Book("Count de Monte Cristo", "Alexander Dumas", 1086));
-        book.add(new Book("Crime and Punishment", "Fyodor Dostoevsky", 685));
 
-        System.out.println(book);
+        // Load Logic
+        try {
+            Scanner fileScanner = new Scanner(new File("books.txt"));
+
+            while (fileScanner.hasNextLine()) {
+                String title  = fileScanner.nextLine();
+                String author = fileScanner.nextLine();
+                String totalPages = fileScanner.nextLine();
+                String currentPage = fileScanner.nextLine();
+                String status = fileScanner.nextLine();
+                String dateAdded = fileScanner.nextLine();
+                fileScanner.nextLine();
+
+                // Create new book object then add it to the ArrayList
+
+                // Builds book object and stores to newBook (using the constructor)
+                Book newBook = new Book(title, author, Integer.parseInt(totalPages));
+
+                // restore field values
+                newBook.setCurrentPage(Integer.parseInt(currentPage));
+                newBook.setStatus(BookStatus.valueOf(status));
+                newBook.setDateAdded(LocalDate.parse(dateAdded));
+
+                // Adds newBook to book list
+                book.add(newBook);
+
+
+
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+        }
+
 
         Scanner scanner = new Scanner(System.in);
         int number = 0;
@@ -367,6 +398,7 @@ public class Main {
             }
         }
 
+        // Save Logic
         try {
             PrintWriter writer = new PrintWriter("books.txt");
 
@@ -379,7 +411,7 @@ public class Main {
 
             writer.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Invalid input");
+            System.out.println("Can't create file");
         }
 
 

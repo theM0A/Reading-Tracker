@@ -50,6 +50,9 @@ public class Book {
         this.status = status;
     }
 
+    // Only meant to be called by load logic, not any user-features
+    public void setDateAdded(LocalDate dateAdded) {this.dateAdded = dateAdded;}
+
     @Override
     public String toString(){
         return "Title: " + title + "\nAuthor: " + author + "\nTotal Pages: " + totalPages + "\nCurrent Page: "

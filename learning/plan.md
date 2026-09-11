@@ -544,9 +544,31 @@ entirely through the menu, and I can't crash it with bad input.
 
 **Section 3 complete** — all eight tasks done. Deliverable met: the app runs
 entirely through the menu (view, add, update page, change status, delete) and
-no numeric input can crash it. Per `CLAUDE.md`'s phase-boundary protocol, the
-cold-rebuild + whole-phase teach-back checkpoint happens before Section 4
-starts, not automatically — flagged for the next session.
+no numeric input can crash it.
+
+**Phase-boundary checkpoint complete (2026-09-10):**
+- **Cold rebuild** (`checkpoint/section3/java/`, 30–45 min, no reference to real
+  code): recreated `Book`, `BookStatus`, and ArrayList CRUD (add, print, update,
+  delete — hardcoded, no `Scanner`/validation, as scoped) from memory. Nearly
+  matched the real `Book.java` exactly — fields, constructor default split,
+  getters/setters, `toString()`. Real differences found and explained rather
+  than just flagged: missing `getTitle()`/`getAuthor()` (correctly attributed to
+  not needing compact numbered-list display here, unlike the real menu), and
+  using `book.remove(book.get(2))` (object-reference removal) instead of the
+  real code's `book.remove(deleteChoice - 1)` (index removal) — a valid
+  alternative, not a mistake, that led to a genuine, resolved misconception
+  about `.equals()` (see [[knowledge-graph]] entry on reference vs. value
+  equality — upgraded to understood from this exchange). One unused leftover
+  import (`java.lang.Integer`) correctly explained as debris from an abandoned
+  approach to the max-pages logic, self-caught mid-explanation.
+- **Whole-phase teach-back:** explained Section 3 end to end unprompted and
+  accurately — the three-class structure and each class's role, the
+  menu/`Scanner` loop as the input gateway enabling object creation from user
+  input, input validation loops vs. try/catch as two different problems (range
+  vs. type) that work together, status-transition rules (3.5) as a business-
+  logic layer a plain setter can't provide, and try/catch (3.8) specifically
+  preventing crashes from non-numeric input. No corrections needed on this
+  pass — genuine integration-level understanding, not just per-task recall.
 
 ### Section 4 — Persistence
 
